@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black & White Interactive Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: #111;
+            margin-bottom: 2rem;
+            padding: 3rem 2rem;
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .section:hover::before {
+            left: 100%;
+        }
+
+        .section:hover {
+            border-color: #fff;
+            background: #1a1a1a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .section h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .section:hover h2::after {
+            width: 120px;
+        }
+
+        .section p {
+            color: #ccc;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn:hover span {
+            color: #000;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline {
+            border: 2px solid #666;
+            color: #666;
+        }
+
+        .btn-outline::before {
+            background: #666;
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+        }
+
+        .btn-outline:hover span {
+            color: #fff;
+        }
+
+        .btn-solid {
+            background: #fff;
+            color: #000;
+            border: 2px solid #fff;
+        }
+
+        .btn-solid::before {
+            background: #000;
+        }
+
+        .btn-solid:hover span {
+            color: #fff;
+        }
+
+        .status {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: #222;
+            border-left: 4px solid #fff;
+            display: none;
+            font-family: 'Courier New', monospace;
+        }
+
+        .status.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .status.error {
+            border-left-color: #ff4444;
+            background: #2a1111;
+        }
+
+        .status.success {
+            border-left-color: #44ff44;
+            background: #112a11;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 4rem 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 100;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        .counter {
+            display: inline-block;
+            background: #222;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border: 1px solid #444;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333;
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #fff;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>Minimal Design</h1>
+            <p>Black & White Interactive Experience</p>
+        </div>
+
+        <div class="section" id="section1">
+            <h2>Dashboard</h2>
+            <p>Monitor your system status and performance metrics. View real-time data and analytics with our
+                comprehensive dashboard tools.</p>
+            <div class="button-group">
+                <button class="btn btn-solid" onclick="handleAction('section1', 'view-dashboard')">
+                    <span>View Dashboard</span>
+                </button>
+                <button class="btn" onclick="handleAction('section1', 'refresh-data')">
+                    <span>Refresh Data</span>
+                </button>
+                <button class="btn btn-outline" onclick="handleAction('section1', 'export-report')">
+                    <span>Export Report</span>
+                </button>
+            </div>
+            <div class="status" id="status1"></div>
+        </div>
+
+        <div class="section" id="section2">
+            <h2>Analytics</h2>
+            <p>Deep dive into your data with advanced analytics tools. Generate insights and track key performance
+                indicators across all metrics.</p>
+            <div class="button-group">
+                <button class="btn" onclick="handleAction('section2', 'run-analysis')">
+                    <span>Run Analysis</span>
+                </button>
+                <button class="btn btn-solid" onclick="handleAction('section2', 'generate-chart')">
+                    <span>Generate Chart</span>
+                </button>
+                <button class="btn" onclick="handleAction('section2', 'save-config')">
+                    <span>Save Config</span>
+                </button>
+                <button class="btn btn-outline" onclick="handleAction('section2', 'schedule-report')">
+                    <span>Schedule Report</span>
+                </button>
+            </div>
+            <div class="status" id="status2"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress2"></div>
+            </div>
+        </div>
+
+        <div class="section" id="section3">
+            <h2>Database</h2>
+            <p>Manage your database operations with powerful tools. Execute queries, backup data, and optimize
+                performance seamlessly.</p>
+            <div class="button-group">
+                <button class="btn btn-solid" onclick="handleAction('section3', 'execute-query')">
+                    <span>Execute Query</span>
+                </button>
+                <button class="btn" onclick="handleAction('section3', 'backup-data')">
+                    <span>Backup Data</span>
+                </button>
+                <button class="btn" onclick="handleAction('section3', 'optimize-db')">
+                    <span>Optimize DB</span>
+                </button>
+            </div>
+            <div class="status" id="status3"></div>
+        </div>
+
+        <div class="section" id="section4">
+            <h2>Security</h2>
+            <p>Protect your system with advanced security features. Monitor threats, manage access controls, and
+                maintain system integrity.</p>
+            <div class="button-group">
+                <button class="btn" onclick="handleAction('section4', 'scan-threats')">
+                    <span>Scan Threats</span>
+                </button>
+                <button class="btn btn-solid" onclick="handleAction('section4', 'update-firewall')">
+                    <span>Update Firewall</span>
+                </button>
+                <button class="btn" onclick="handleAction('section4', 'audit-logs')">
+                    <span>Audit Logs</span>
+                </button>
+                <button class="btn btn-outline" onclick="handleAction('section4', 'generate-cert')">
+                    <span>Generate Cert</span>
+                </button>
+            </div>
+            <div class="status" id="status4"></div>
+        </div>
+
+        <div class="section" id="section5">
+            <h2>Settings</h2>
+            <p>Configure your system preferences and manage user settings. Customize your experience with advanced
+                configuration options.</p>
+            <div class="button-group">
+                <button class="btn btn-solid" onclick="handleAction('section5', 'save-settings')">
+                    <span>Save Settings</span>
+                </button>
+                <button class="btn" onclick="handleAction('section5', 'reset-config')">
+                    <span>Reset Config</span>
+                </button>
+                <button class="btn btn-outline" onclick="handleAction('section5', 'import-settings')">
+                    <span>Import Settings</span>
+                </button>
+            </div>
+            <div class="status" id="status5"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let actionCount = 0;
+        let activeProcesses = {};
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeAnimations();
+            setupEventListeners();
+            updateCounter();
+        });
+
+        function initializeAnimations() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(50px)';
+
+                setTimeout(() => {
+                    section.style.transition = 'all 0.8s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        }
+
+        function setupEventListeners() {
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    refreshAllSections();
+                }
+            });
+        }
+
+        function handleAction(sectionId, action) {
+            actionCount++;
+            updateCounter();
+
+            const statusElement = document.getElementById('status' + sectionId.slice(-1));
+            const progressElement = document.getElementById('progress' + sectionId.slice(-1));
+
+            // Show loading state
+            showStatus(statusElement, `<div class="loading"></div>Processing ${action}...`, 'loading');
+
+            // Simulate processing time
+            const processingTime = Math.random() * 2000 + 1000; // 1-3 seconds
+
+            // Update progress bar if it exists
+            if (progressElement) {
+                animateProgress(progressElement, processingTime);
+            }
+
+            setTimeout(() => {
+                const success = Math.random() > 0.2; // 80% success rate
+
+                if (success) {
+                    const messages = {
+                        'view-dashboard': 'Dashboard loaded successfully',
+                        'refresh-data': 'Data refreshed and updated',
+                        'export-report': 'Report exported to downloads',
+                        'run-analysis': 'Analysis completed - 47 insights found',
+                        'generate-chart': 'Chart generated and saved',
+                        'save-config': 'Configuration saved successfully',
+                        'schedule-report': 'Report scheduled for daily delivery',
+                        'execute-query': 'Query executed - 1,247 rows affected',
+                        'backup-data': 'Backup completed successfully',
+                        'optimize-db': 'Database optimized - 23% performance improvement',
+                        'scan-threats': 'Security scan complete - No threats detected',
+                        'update-firewall': 'Firewall rules updated',
+                        'audit-logs': 'Audit completed - 156 events logged',
+                        'generate-cert': 'SSL certificate generated and installed',
+                        'save-settings': 'Settings saved and applied',
+                        'reset-config': 'Configuration reset to defaults',
+                        'import-settings': 'Settings imported successfully'
+                    };
+
+                    showStatus(statusElement, `✓ ${messages[action] || 'Action completed successfully'}`, 'success');
+                } else {
+                    showStatus(statusElement, `✗ Failed to ${action.replace('-', ' ')} - Please try again`, 'error');
+                }
+
+                // Store process info
+                activeProcesses[sectionId] = {
+                    action: action,
+                    timestamp: new Date().toLocaleTimeString(),
+                    success: success
+                };
+
+            }, processingTime);
+
+            // Add visual feedback to button
+            const button = event.target.closest('.btn');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+        }
+
+        function showStatus(element, message, type = '') {
+            element.innerHTML = message;
+            element.className = `status show ${type}`;
+
+            // Auto-hide after 4 seconds unless it's a loading state
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    element.className = 'status';
+                }, 4000);
+            }
+        }
+
+        function animateProgress(element, duration) {
+            element.style.width = '0%';
+
+            const steps = 100;
+            const stepTime = duration / steps;
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+                currentStep++;
+                const progress = (currentStep / steps) * 100;
+                element.style.width = progress + '%';
+
+                if (currentStep >= steps) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        element.style.width = '0%';
+                    }, 1000);
+                }
+            }, stepTime);
+        }
+
+        function updateCounter() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.textContent = actionCount.toString().padStart(3, '0');
+            });
+
+            // Add counter to hero if not exists
+            if (actionCount > 0 && !document.querySelector('.counter')) {
+                const hero = document.querySelector('.hero p');
+                hero.innerHTML += ` | Actions: <span class="counter">${actionCount.toString().padStart(3, '0')}</span>`;
+            }
+        }
+
+        function refreshAllSections() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        section.style.transform = 'scale(1)';
+                    }, 100);
+                }, index * 50);
+            });
+
+            // Clear all status messages
+            document.querySelectorAll('.status').forEach(status => {
+                status.className = 'status';
+            });
+
+            console.log('All sections refreshed');
+        }
+
+        // Advanced JavaScript features
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                const randomSection = Math.floor(Math.random() * 5) + 1;
+                const statusElement = document.getElementById(`status${randomSection}`);
+
+                if (!statusElement.classList.contains('show')) {
+                    const updates = [
+                        'System heartbeat detected',
+                        'Background process completed',
+                        'Cache refreshed automatically',
+                        'New data synchronized',
+                        'Performance metrics updated'
+                    ];
+
+                    const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
+                    showStatus(statusElement, `ℹ ${randomUpdate}`, 'info');
+                }
+            }, 10000); // Every 10 seconds
+        }
+
+        // Start real-time updates
+        setTimeout(simulateRealTimeUpdates, 5000);
+
+        // Console logging for debugging
+        console.log('Black & White Interactive Site Initialized');
+        console.log('Press Ctrl+R to refresh all sections');
+    </script>
+</body>
+
+</html>

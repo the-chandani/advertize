@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange & Yellow Homepage</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Color Sections */
+        .hero-section {
+            background-color: #FF6600;
+            /* Orange */
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .about-section {
+            background-color: #FFD700;
+            /* Yellow */
+            color: black;
+            padding: 100px 0;
+        }
+
+        .services-section {
+            background-color: #8B4513;
+            /* Brown */
+            color: white;
+            padding: 100px 0;
+        }
+
+        .features-section {
+            background-color: #FFA500;
+            /* Orange variant */
+            color: black;
+            padding: 100px 0;
+        }
+
+        .testimonials-section {
+            background-color: #FFFF99;
+            /* Light Yellow */
+            color: black;
+            padding: 100px 0;
+        }
+
+        .contact-section {
+            background-color: #654321;
+            /* Dark Brown */
+            color: white;
+            padding: 100px 0;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9) !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF6600 !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #FF6600 !important;
+        }
+
+        /* Hero Section Styles */
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .hero-btn {
+            background-color: white;
+            color: #FF6600;
+            border: 3px solid white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .hero-btn:hover {
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Floating Elements */
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .circle-1 {
+            width: 100px;
+            height: 100px;
+            background-color: #FFD700;
+            top: 20%;
+            left: 10%;
+        }
+
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            background-color: #8B4513;
+            top: 60%;
+            right: 15%;
+        }
+
+        .circle-3 {
+            width: 80px;
+            height: 80px;
+            background-color: #FFA500;
+            bottom: 20%;
+            left: 20%;
+        }
+
+        /* Section Styles */
+        .section-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        /* Cards */
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .feature-card {
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Statistics */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FF6600;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Contact Form */
+        .contact-form .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .contact-form .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-form .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #FFD700;
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+            color: white;
+        }
+
+        .submit-btn {
+            background-color: #FFD700;
+            color: #654321;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #FFA500;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .floating-circle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">BrandName</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Orange -->
+    <section id="home" class="hero-section">
+        <div class="floating-circle circle-1"></div>
+        <div class="floating-circle circle-2"></div>
+        <div class="floating-circle circle-3"></div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to Our Amazing World</h1>
+            <p class="hero-subtitle">Creating extraordinary experiences with vibrant design and innovative solutions</p>
+            <a href="#about" class="hero-btn">Discover More</a>
+        </div>
+    </section>
+
+    <!-- About Section - Yellow -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">About Our Company</h2>
+                    <p class="section-subtitle">We are passionate creators dedicated to bringing your vision to life
+                        with bold colors and innovative design.</p>
+                    <p class="mb-4">Our team combines creativity with technical expertise to deliver outstanding
+                        results. We believe in the power of vibrant design to communicate, inspire, and transform
+                        businesses.</p>
+
+                    <div class="row mt-5">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="stat-number">150+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Clients</div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-lightbulb" style="font-size: 250px; color: #FF6600; opacity: 0.7;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section - Brown -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="section-title">Our Services</h2>
+                    <p class="section-subtitle">We offer comprehensive solutions to help your business stand out in the
+                        digital world.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4 class="mb-3">Creative Design</h4>
+                        <p>Stunning visual designs that capture attention and communicate your brand message
+                            effectively.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4 class="mb-3">Web Development</h4>
+                        <p>Custom websites and applications built with modern technologies and best practices.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 class="mb-3">Digital Strategy</h4>
+                        <p>Comprehensive digital strategies to help your business grow and reach new heights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section - Orange Variant -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="section-title">Why Choose Us</h2>
+                    <p class="section-subtitle">We bring unique advantages that set us apart from the competition.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-clock fa-3x mb-3" style="color: #654321;"></i>
+                        <h5 class="mb-3">Fast Delivery</h5>
+                        <p>Quick turnaround times without compromising on quality.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt fa-3x mb-3" style="color: #654321;"></i>
+                        <h5 class="mb-3">Reliable</h5>
+                        <p>Dependable solutions you can trust for your business needs.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-users fa-3x mb-3" style="color: #654321;"></i>
+                        <h5 class="mb-3">Expert Team</h5>
+                        <p>Skilled professionals with years of industry experience.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-headset fa-3x mb-3" style="color: #654321;"></i>
+                        <h5 class="mb-3">24/7 Support</h5>
+                        <p>Round-the-clock support to help you whenever you need it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section - Light Yellow -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="section-title">What Our Clients Say</h2>
+                    <p class="section-subtitle">Don't just take our word for it - hear from our satisfied clients.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="mb-3">
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                        </div>
+                        <p class="mb-3">"Absolutely amazing work! They transformed our vision into reality with their
+                            creative expertise."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;"></div>
+                            <div>
+                                <h6 class="mb-0">Sarah Wilson</h6>
+                                <small class="text-muted">CEO, Creative Agency</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="mb-3">
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                        </div>
+                        <p class="mb-3">"Professional, creative, and delivered exactly what we needed. Highly
+                            recommended!"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;"></div>
+                            <div>
+                                <h6 class="mb-0">Mike Johnson</h6>
+                                <small class="text-muted">Founder, Tech Startup</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testimonial-card">
+                        <div class="mb-3">
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                            <i class="fas fa-star" style="color: #FF6600;"></i>
+                        </div>
+                        <p class="mb-3">"Outstanding results and excellent communication throughout the entire project."
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary rounded-circle me-3" style="width: 50px; height: 50px;"></div>
+                            <div>
+                                <h6 class="mb-0">Emma Davis</h6>
+                                <small class="text-muted">Marketing Director</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - Dark Brown -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Ready to start your next project? Let's discuss how we can help you
+                        achieve your goals.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <form class="contact-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="Subject" required>
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="submit-btn">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Section Animations
+        gsap.timeline()
+            .to('.hero-title', { duration: 1, opacity: 1, y: 0, ease: 'power2.out' })
+            .to('.hero-subtitle', { duration: 1, opacity: 1, y: 0, ease: 'power2.out' }, '-=0.5')
+            .to('.hero-btn', { duration: 1, opacity: 1, y: 0, ease: 'power2.out' }, '-=0.5');
+
+        // Floating circles animation
+        gsap.to('.circle-1', { duration: 3, y: 20, repeat: -1, yoyo: true, ease: 'power2.inOut' });
+        gsap.to('.circle-2', { duration: 4, x: 15, repeat: -1, yoyo: true, ease: 'power2.inOut' });
+        gsap.to('.circle-3', { duration: 2.5, y: -15, repeat: -1, yoyo: true, ease: 'power2.inOut' });
+
+        // Section Title Animations
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.fromTo(title,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: title,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Service Cards Animation
+        gsap.utils.toArray('.service-card').forEach((card, index) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 50, scale: 0.9 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Feature Cards Animation
+        gsap.utils.toArray('.feature-card').forEach((card, index) => {
+            gsap.fromTo(card,
+                { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Testimonial Cards Animation
+        gsap.utils.toArray('.testimonial-card').forEach((card, index) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 30, rotationY: 15 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    rotationY: 0,
+                    duration: 0.8,
+                    delay: index * 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Statistics Counter Animation
+        gsap.utils.toArray('.stat-number').forEach(stat => {
+            const finalValue = parseInt(stat.textContent);
+            gsap.fromTo(stat,
+                { textContent: 0 },
+                {
+                    textContent: finalValue,
+                    duration: 2,
+                    ease: 'power2.out',
+                    snap: { textContent: 1 },
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Contact Form Animation
+        gsap.fromTo('.contact-form',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.contact-form',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, { duration: 1, scrollTo: target, ease: 'power2.out' });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Animate submit button
+            gsap.to('.submit-btn', {
+                scale: 0.95,
+                duration: 0.1,
+                yoyo: true,
+                repeat: 1,
+                onComplete: () => {
+                    alert('Thank you for your message! We\'ll get back to you soon.');
+                    this.reset();
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+
+</html>

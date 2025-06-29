@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card-Style Accordion Navigation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            font-family: 'Merienda', cursive;
+        }
+
+        #nav {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            transform-origin: top center;
+            height: auto;
+            width: auto;
+            min-width: 280px;
+            background-color: #ED6C00;
+            border-radius: 15px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(237, 108, 0, 0.4);
+            opacity: 0;
+            display: flex;
+        }
+
+        /* Active state for accordion effect */
+        #nav.active {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        #nav #nav-child1 {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 0;
+            padding: 40px 25px 30px;
+            position: relative;
+        }
+
+        #nav .menu-item {
+            cursor: pointer;
+            padding: 18px 25px;
+            margin-bottom: 3px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            white-space: nowrap;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #nav.active .menu-item {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        #nav .menu-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        #nav .menu-item:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        #nav .menu-item:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        #nav .menu-item:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        #nav .menu-item:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #nav .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #nav .menu-item:active {
+            transform: translateY(-1px);
+        }
+
+        /* Menu trigger button - centered at top */
+        #menuTrigger {
+            position: fixed;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #ED6C00, #d45a00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Merienda', cursive;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 1100;
+            box-shadow: 0 6px 20px rgba(237, 108, 0, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        #menuTrigger:hover {
+            /* transform: translateX(-50%) translateY(-3px); */
+            /* box-shadow: 0 8px 25px rgba(237, 108, 0, 0.4); */
+        }
+
+        /* Cancel button at bottom */
+        #cancelBtn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #ED6C00;
+            border: 3px solid #ED6C00;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
+            align-self: center;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        #nav.active #cancelBtn {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.6s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        #cancelBtn:hover {
+            background-color: #ED6C00;
+            color: white;
+            transform: rotate(90deg) scale(1.15);
+        }
+
+        /* Sample content */
+        .content {
+            padding: 100px 20px 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .content h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+        }
+
+        /* Backdrop overlay */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            backdrop-filter: blur(3px);
+        }
+
+        .backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            #nav {
+                min-width: 260px;
+            }
+
+            #nav #nav-child1 {
+                padding: 35px 20px 25px;
+            }
+
+            #nav .menu-item {
+                padding: 16px 20px;
+                font-size: 18px;
+            }
+
+            #menuTrigger {
+                padding: 12px 28px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Menu Trigger Button -->
+    <button id="menuTrigger">&#9776;</button>
+
+    <!-- Navigation Overlay -->
+    <div id="nav">
+        <div id="nav-child1">
+            <div class="menu-item">Home</div>
+            <div class="menu-item">About Us</div>
+            <div class="menu-item">Services</div>
+            <div class="menu-item">Portfolio</div>
+            <div class="menu-item">Contact</div>
+        </div>
+
+        <div id="nav-child1">
+            <div class="menu-item">contact</div>
+            <div class="menu-item">display ad</div>
+            <div class="menu-item">give ad</div>
+            <div class="menu-item">fun </div>
+            <div class="menu-item">show</div>
+        </div>
+
+        <div id="nav-child1">
+            <div class="menu-item">print</div>
+            <div class="menu-item">business</div>
+            <div class="menu-item">event</div>
+            <div class="menu-item">design</div>
+            <div class="menu-item">Contact</div>
+        </div>
+
+        <div id="nav-child1">
+            <div class="menu-item">services</div>
+            <div class="menu-item">request services</div>
+            <div class="menu-item">view</div>
+            <div class="menu-item">list of contact</div>
+            <div class="menu-item">our journey</div>
+            <button id="cancelBtn">×</button>
+        </div>
+
+
+    </div>
+
+    <!-- Backdrop -->
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Card-Style Accordion Navigation</h1>
+        <p>Click on "Explore Menu ✨" at the top center to open the beautiful card-style accordion navigation that slides
+            down from the top. Each menu item now has a card-like appearance with subtle borders and enhanced hover
+            effects.</p>
+        <p>The navigation features a modern design with improved spacing, typography, and visual hierarchy that matches
+            contemporary web design trends.</p>
+        <p>Enhanced features include:</p>
+        <p>• Card-style menu items with subtle borders and backgrounds</p>
+        <p>• Enhanced hover effects with elevation and glow</p>
+        <p>• Improved typography and spacing</p>
+        <p>• Better visual hierarchy and contrast</p>
+        <p>• Smooth accordion animation with staggered item entrance</p>
+        <p>• Enhanced backdrop with blur effect</p>
+        <p>• Fully responsive design optimized for all devices</p>
+        <p>• Improved accessibility with keyboard navigation support</p>
+    </div>
+
+    <script>
+        const nav = document.getElementById('nav');
+        const menuTrigger = document.getElementById('menuTrigger');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const backdrop = document.getElementById('backdrop');
+
+        // Open navigation
+        menuTrigger.addEventListener('click', () => {
+            nav.classList.add('active');
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        // Close navigation
+        function closeNav() {
+            nav.classList.remove('active');
+            backdrop.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        cancelBtn.addEventListener('click', closeNav);
+        backdrop.addEventListener('click', closeNav);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeNav();
+            }
+        });
+
+        // Add click functionality to menu items
+        const menuItems = document.querySelectorAll('#nav .menu-item');
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                console.log(`Clicked on: ${item.textContent}`);
+                // Add your navigation logic here
+                closeNav();
+            });
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (nav.classList.contains('active')) {
+                const menuItems = document.querySelectorAll('#nav .menu-item');
+                const currentFocus = document.activeElement;
+                const currentIndex = Array.from(menuItems).indexOf(currentFocus);
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
+                    menuItems[nextIndex].focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
+                    menuItems[prevIndex].focus();
+                } else if (e.key === 'Enter' && currentIndex !== -1) {
+                    e.preventDefault();
+                    menuItems[currentIndex].click();
+                }
+            }
+        });
+
+        // Make menu items focusable for keyboard navigation
+        menuItems.forEach(item => {
+            item.setAttribute('tabindex', '0');
+        });
+    </script>
+</body>
+
+</html>

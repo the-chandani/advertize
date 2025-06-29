@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Studio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-1: #fca9c9;
+            --color-2: #fceda8;
+            --color-3: #baf1b4;
+            --color-4: #b0edf0;
+            --color-5: #b6b3f2;
+            --color-6: #e76a92;
+            --color-7: #f7db48;
+            --color-8: #4ccc47;
+            --color-9: #5dc9d1;
+            --color-10: #7e7bd3;
+            --color-11: #f78c6b;
+            --color-12: #fbbd84;
+            --color-13: #f05663;
+            --color-14: #cc2b3f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--color-1);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-6) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--color-14) !important;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--color-6) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--color-2) 0%, var(--color-4) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--color-14);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--color-6);
+            margin-bottom: 30px;
+        }
+
+        .btn-custom {
+            background: var(--color-6);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background: var(--color-14);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Floating elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            background: var(--color-1);
+            top: 20%;
+            left: 10%;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            background: var(--color-3);
+            top: 60%;
+            right: 15%;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            background: var(--color-5);
+            bottom: 20%;
+            left: 20%;
+        }
+
+        /* Marquee */
+        .marquee-container {
+            background: var(--color-7);
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee {
+            display: inline-block;
+            animation: scroll 30s linear infinite;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--color-14);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* About Us */
+        .about {
+            padding: 100px 0;
+            background: var(--color-2);
+        }
+
+        .about h2 {
+            color: var(--color-14);
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .about p {
+            font-size: 1.2rem;
+            color: var(--color-6);
+            line-height: 1.8;
+        }
+
+        /* Our Journey */
+        .journey {
+            padding: 100px 0;
+            background: var(--color-4);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-item:nth-child(odd) {
+            background: var(--color-1);
+        }
+
+        .timeline-item:nth-child(even) {
+            background: var(--color-3);
+        }
+
+        /* Our Work */
+        .work {
+            padding: 100px 0;
+            background: var(--color-5);
+        }
+
+        .work-item {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .work-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            padding: 100px 0;
+            background: var(--color-3);
+        }
+
+        .gallery-item {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Vertical Carousel */
+        .vertical-carousel {
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            background: var(--color-9);
+            border-radius: 15px;
+        }
+
+        .vertical-slide {
+            height: 100px;
+            background: var(--color-11);
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .vertical-slide:nth-child(even) {
+            background: var(--color-12);
+        }
+
+        /* Horizontal Carousel */
+        .horizontal-carousel {
+            background: var(--color-1);
+            padding: 50px 0;
+        }
+
+        .carousel-item-custom {
+            height: 300px;
+            background: var(--color-13);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        /* Partners Section */
+        .partners {
+            padding: 100px 0;
+            background: var(--color-2);
+        }
+
+        .partner-logo {
+            height: 120px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-14);
+        }
+
+        .partner-logo:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .partner-logo:nth-child(1) {
+            background: var(--color-1);
+            color: white;
+        }
+
+        .partner-logo:nth-child(2) {
+            background: var(--color-3);
+            color: var(--color-14);
+        }
+
+        .partner-logo:nth-child(3) {
+            background: var(--color-5);
+            color: white;
+        }
+
+        .partner-logo:nth-child(4) {
+            background: var(--color-9);
+            color: white;
+        }
+
+        .partner-logo:nth-child(5) {
+            background: var(--color-11);
+            color: white;
+        }
+
+        .partner-logo:nth-child(6) {
+            background: var(--color-12);
+            color: var(--color-14);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-14);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer h5 {
+            color: var(--color-2);
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: var(--color-2);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--color-14);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg header">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Creative Studio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#journey">Journey</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#partners">Partners</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="hero-content">
+            <h1>Welcome to Creative Studio</h1>
+            <p>Bringing your creative visions to life</p>
+            <button class="btn btn-custom">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-container">
+        <div class="marquee">
+            ✨ CREATIVE DESIGN • INNOVATIVE SOLUTIONS • AMAZING RESULTS • CREATIVE DESIGN • INNOVATIVE SOLUTIONS •
+            AMAZING RESULTS ✨
+        </div>
+    </div>
+
+    <!-- About Us -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2>About Us</h2>
+                    <p>We are a passionate team of creative professionals dedicated to bringing innovative solutions to
+                        life. Our journey began with a simple mission: to create meaningful experiences that inspire and
+                        engage.</p>
+                    <p>With years of experience in design, development, and strategy, we've helped countless clients
+                        achieve their goals through creative excellence and technical expertise.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="vertical-carousel">
+                        <div class="vertical-slide">Creative Design</div>
+                        <div class="vertical-slide">Web Development</div>
+                        <div class="vertical-slide">Brand Strategy</div>
+                        <div class="vertical-slide">Digital Marketing</div>
+                        <div class="vertical-slide">UI/UX Design</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Journey -->
+    <section id="journey" class="journey">
+        <div class="container">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>2019 - Foundation & Vision</h4>
+                    <p>Established our creative studio with a vision to revolutionize digital experiences and bring
+                        innovative design solutions to businesses worldwide.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>2021 - Team Expansion</h4>
+                    <p>Grew our team with talented designers, developers, and strategists, expanding our capabilities in
+                        web development, branding, and digital marketing.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>2023 - Technology Integration</h4>
+                    <p>Embraced cutting-edge technologies including AI, advanced animations, and modern development
+                        frameworks to deliver next-generation solutions.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>2024 - Global Recognition</h4>
+                    <p>Achieved international recognition with award-winning projects, serving Fortune 500 companies and
+                        startups across 15+ countries.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>2025 - Future Innovation</h4>
+                    <p>Leading the industry with sustainable design practices, immersive experiences, and pioneering
+                        solutions that shape the future of digital creativity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Work -->
+    <section id="work" class="work">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="work-item">
+                        <i class="fas fa-palette fa-3x mb-3" style="color: var(--color-6);"></i>
+                        <h4>Brand Design</h4>
+                        <p>Creating memorable brand identities that stand out in the market.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="work-item">
+                        <i class="fas fa-code fa-3x mb-3" style="color: var(--color-8);"></i>
+                        <h4>Web Development</h4>
+                        <p>Building responsive, fast, and user-friendly websites and applications.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="work-item">
+                        <i class="fas fa-chart-line fa-3x mb-3" style="color: var(--color-10);"></i>
+                        <h4>Digital Strategy</h4>
+                        <p>Developing comprehensive digital strategies for business growth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Partners -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2 class="section-title">Our Partners</h2>
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">TechCorp</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">InnovateLab</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">DesignPro</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">FutureTech</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">CreativeHub</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">BrandMakers</div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">PixelStudio</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">WebFlow</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">StartupLab</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">DigitalEdge</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">NextGen</div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="partner-logo">CloudTech</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horizontal Carousel -->
+    <section class="horizontal-carousel">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="carousel-item-custom">Project Alpha</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-item-custom">Project Beta</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-item-custom">Project Gamma</div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Photo Gallery</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-6), var(--color-1)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">Team
+                            Collaboration</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-8), var(--color-3)), url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Creative Workspace</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-10), var(--color-5)), url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Design Process</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-11), var(--color-1)), url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Strategy Meeting</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-12), var(--color-2)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Innovation Lab</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-13), var(--color-6)), url('https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Client Presentation</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-9), var(--color-4)), url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Digital Solutions</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-7), var(--color-8)), url('https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Brand Workshop</div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item"
+                        style="background: linear-gradient(45deg, var(--color-14), var(--color-13)), url('https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'); background-size: cover; background-blend-mode: overlay;">
+                        <div style="position: absolute; bottom: 20px; left: 20px; color: white; font-weight: bold;">
+                            Success Stories</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h5>Creative Studio</h5>
+                    <p>Transforming ideas into extraordinary experiences through creative excellence.</p>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#work">Work</a></li>
+                        <li><a href="#partners">Partners</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: var(--color-2);">
+            <div class="text-center">
+                <p>&copy; 2024 Creative Studio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero animations
+        gsap.from(".hero h1", { duration: 1, y: 50, opacity: 0, delay: 0.5 });
+        gsap.from(".hero p", { duration: 1, y: 30, opacity: 0, delay: 0.8 });
+        gsap.from(".btn-custom", { duration: 1, y: 20, opacity: 0, delay: 1.1 });
+
+        // Floating shapes animation
+        gsap.to(".shape-1", { duration: 3, y: -20, repeat: -1, yoyo: true, ease: "power2.inOut" });
+        gsap.to(".shape-2", { duration: 4, y: 30, repeat: -1, yoyo: true, ease: "power2.inOut", delay: 1 });
+        gsap.to(".shape-3", { duration: 2.5, y: -15, repeat: -1, yoyo: true, ease: "power2.inOut", delay: 0.5 });
+
+        // Scroll triggered animations
+        gsap.from(".about h2", {
+            scrollTrigger: ".about",
+            duration: 1,
+            x: -50,
+            opacity: 0
+        });
+
+        gsap.from(".about p", {
+            scrollTrigger: ".about",
+            duration: 1,
+            x: -30,
+            opacity: 0,
+            delay: 0.3,
+            stagger: 0.2
+        });
+
+        // Timeline items animation
+        gsap.from(".timeline-item", {
+            scrollTrigger: ".journey",
+            duration: 0.8,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2
+        });
+
+        // Work items animation
+        gsap.from(".work-item", {
+            scrollTrigger: ".work",
+            duration: 0.8,
+            y: 50,
+            opacity: 0,
+            stagger: 0.2
+        });
+
+        // Partners animation
+        gsap.from(".partner-logo", {
+            scrollTrigger: ".partners",
+            duration: 0.6,
+            y: 30,
+            opacity: 0,
+            stagger: 0.1
+        });
+
+        // Gallery items animation
+        gsap.from(".gallery-item", {
+            scrollTrigger: ".gallery",
+            duration: 0.6,
+            scale: 0.8,
+            opacity: 0,
+            stagger: 0.1
+        });
+
+        // Vertical carousel animation
+        function animateVerticalCarousel() {
+            const slides = document.querySelectorAll('.vertical-slide');
+            slides.forEach((slide, index) => {
+                gsap.to(slide, {
+                    duration: 2,
+                    y: -100,
+                    repeat: -1,
+                    delay: index * 0.4,
+                    ease: "none"
+                });
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            animateVerticalCarousel();
+        });
+
+        // Gallery item click effect
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function () {
+                gsap.to(this, { duration: 0.1, scale: 0.95, yoyo: true, repeat: 1 });
+            });
+        });
+    </script>
+</body>
+
+</html>

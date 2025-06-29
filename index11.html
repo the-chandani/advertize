@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion Dropdown Navigation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            font-family: 'Merienda', cursive;
+        }
+
+        #nav {
+            position: fixed;
+            top: -400px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: auto;
+            width: auto;
+            min-width: 250px;
+            background-color: #ED6C00;
+            border-radius: 10px;
+            transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(237, 108, 0, 0.3);
+        }
+
+        /* Active state for accordion effect */
+        #nav.active {
+            top: 0;
+        }
+
+        #nav #nav-child1 {
+            font-size: 18px;
+            font-weight: 300;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 25px 30px;
+            position: relative;
+        }
+
+        #nav h4 {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        #nav.active h4,
+        #nav.active #cancelBtn {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        #nav h4:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        #nav h4:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        #nav h4:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        #nav h4:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        #nav h4:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        #cancelBtn {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #nav h4:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Menu trigger button - centered at top */
+        #menuTrigger {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ED6C00, #d45a00);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Merienda', cursive;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 1100;
+            box-shadow: 0 4px 15px rgba(237, 108, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #menuTrigger:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(237, 108, 0, 0.4);
+        }
+
+        /* Cancel button */
+        #cancelBtn {
+            width: auto;
+            height: 35px;
+            padding: 0 20px;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            font-family: 'Merienda', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+            white-space: nowrap;
+        }
+
+        #cancelBtn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Sample content */
+        .content {
+            padding: 80px 20px 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .content h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Backdrop overlay */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Menu Trigger Button -->
+    <button id="menuTrigger">Explore Menu ✨</button>
+
+    <!-- Navigation Overlay -->
+    <div id="nav">
+        <div id="nav-child1">
+            <h4>Home</h4>
+            <h4>About Us</h4>
+            <h4>Services</h4>
+            <h4>Portfolio</h4>
+            <h4>Contact</h4>
+            <button id="cancelBtn">Close Menu</button>
+        </div>
+    </div>
+
+    <!-- Backdrop -->
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Accordion Dropdown Navigation</h1>
+        <p>Click on "Explore Menu ✨" at the top center to open the accordion-style navigation that slides down from the
+            top. The navigation includes smooth animations and a cancel button to close it.</p>
+        <p>The menu button is now positioned at the center top of the page with custom text, and the navigation opens
+            with a beautiful accordion effect from top to bottom.</p>
+        <p>Features include:</p>
+        <p>• Centered menu trigger button with custom text</p>
+        <p>• Smooth accordion animation from top</p>
+        <p>• Cancel button with hover rotation effect</p>
+        <p>• Staggered animation for menu items</p>
+        <p>• Backdrop overlay for better focus</p>
+        <p>• Responsive design that works on all devices</p>
+    </div>
+
+    <script>
+        const nav = document.getElementById('nav');
+        const menuTrigger = document.getElementById('menuTrigger');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const backdrop = document.getElementById('backdrop');
+
+        // Open navigation
+        menuTrigger.addEventListener('click', () => {
+            nav.classList.add('active');
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        // Close navigation
+        function closeNav() {
+            nav.classList.remove('active');
+            backdrop.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        cancelBtn.addEventListener('click', closeNav);
+        backdrop.addEventListener('click', closeNav);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeNav();
+            }
+        });
+
+        // Add click functionality to menu items
+        const menuItems = document.querySelectorAll('#nav h4');
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                console.log(`Clicked on: ${item.textContent}`);
+                // Add your navigation logic here
+                closeNav();
+            });
+        });
+    </script>
+</body>
+
+</html>

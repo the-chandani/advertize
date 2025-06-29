@@ -1,0 +1,450 @@
+#nav.active #nav-child1 {
+transform: scale(1);
+opacity: 1;
+animation: cardSlideIn 0.8s ease forwards;
+}
+
+#nav #nav-child1:nth-child(1) {
+animation-delay: 0.1s;
+}
+
+#nav #nav-child1:nth-child(2) {
+animation-delay: 0.2s;
+}
+
+#nav #nav-child1:nth-child(3) {
+animation-delay: 0.3s;
+}
+
+#nav #nav-child1:nth-child(4) {
+animation-delay: 0.4s;
+}
+
+@keyframes cardSlideIn {
+from {
+transform: scale(0.8) translateY(30px);
+opacity: 0;
+}
+to {
+transform: scale(1) translateY(0);
+opacity: 1;
+}
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen Top-Down Navigation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            font-family: 'Merienda', cursive;
+        }
+
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ED6C00;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding: 60px 40px;
+            align-content: center;
+            justify-items: center;
+            overflow-y: auto;
+        }
+
+        /* Active state for full-screen effect */
+        #nav.active {
+            transform: translateY(0);
+        }
+
+        #nav #nav-child1 {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 30px 20px;
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        #nav .menu-item {
+            cursor: pointer;
+            padding: 12px 20px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            font-size: 16px;
+        }
+
+        #nav.active .menu-item {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInDown 0.6s ease forwards;
+        }
+
+        #nav .menu-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        #nav .menu-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        #nav .menu-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        #nav .menu-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        #nav .menu-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #nav .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        #nav .menu-item:active {
+            transform: translateY(0);
+        }
+
+        /* Menu trigger button - centered at top */
+        #menuTrigger {
+            position: fixed;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #ED6C00, #d45a00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Merienda', cursive;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 1100;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 4px 8px rgba(237, 108, 0, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+            opacity: 1;
+        }
+
+        /* Hide menu trigger when nav is active */
+        #menuTrigger.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+            pointer-events: none;
+        }
+
+        /* Close button - positioned at bottom center */
+        #cancelBtn {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #ED6C00;
+            border: 3px solid #ED6C00;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+            z-index: 1001;
+        }
+
+        #nav.active #cancelBtn {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            animation: bounceIn 0.6s ease forwards;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes bounceIn {
+            from {
+                transform: translateX(-50%) scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.1);
+            }
+
+            to {
+                transform: translateX(-50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #cancelBtn:hover {
+            background-color: #ED6C00;
+            color: white;
+            transform: translateX(-50%) scale(1.15) rotate(90deg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Sample content */
+        .content {
+            padding: 100px 20px 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .content h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            #nav {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                padding: 40px 20px;
+            }
+
+            #nav #nav-child1 {
+                padding: 25px 15px;
+                gap: 12px;
+                max-width: 220px;
+            }
+
+            #nav .menu-item {
+                padding: 10px 15px;
+                font-size: 15px;
+            }
+
+            #menuTrigger {
+                padding: 12px 28px;
+                font-size: 15px;
+                top: 10px;
+            }
+
+            #cancelBtn {
+                bottom: 30px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #nav {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 30px 15px;
+            }
+
+            #nav #nav-child1 {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            #nav .menu-item {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            #cancelBtn {
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Menu Trigger Button -->
+    <button id="menuTrigger">&#9776;</button>
+
+    <!-- Navigation Overlay -->
+    <div id="nav">
+        <div id="nav-child1">
+            <div class="menu-item">Home</div>
+            <div class="menu-item">About Us</div>
+            <div class="menu-item">Services</div>
+            <div class="menu-item">Portfolio</div>
+            <div class="menu-item">Contact</div>
+            <button id="cancelBtn">×</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Full-Screen Top-Down Navigation</h1>
+        <p>Click on the "☰" button at the top to open the full-screen navigation that slides down from the top. The
+            navigation now takes up 90% of the screen width and appears like a new page overlay.</p>
+        <p>The menu trigger button is automatically hidden when the navigation is open, and you can close it using the ×
+            button in the top-right corner of the navigation.</p>
+        <p>Enhanced features include:</p>
+        <p>• Full-screen navigation experience</p>
+        <p>• Slides down from top to bottom</p>
+        <p>• Takes up 90% of screen width</p>
+        <p>• Menu trigger button hides when navigation is open</p>
+        <p>• Close button positioned in top-right corner</p>
+        <p>• Smooth animations with staggered menu item entrance</p>
+        <p>• Fully responsive design optimized for all devices</p>
+        <p>• Improved accessibility with keyboard navigation support</p>
+    </div>
+
+    <script>
+        const nav = document.getElementById('nav');
+        const menuTrigger = document.getElementById('menuTrigger');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        // Open navigation
+        menuTrigger.addEventListener('click', () => {
+            nav.classList.add('active');
+            menuTrigger.classList.add('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        // Close navigation
+        function closeNav() {
+            nav.classList.remove('active');
+            menuTrigger.classList.remove('hidden');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        cancelBtn.addEventListener('click', closeNav);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeNav();
+            }
+        });
+
+        // Add click functionality to menu items
+        const menuItems = document.querySelectorAll('#nav .menu-item');
+        menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                console.log(`Clicked on: ${item.textContent}`);
+                // Add your navigation logic here
+                closeNav();
+            });
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (nav.classList.contains('active')) {
+                const menuItems = document.querySelectorAll('#nav .menu-item');
+                const currentFocus = document.activeElement;
+                const currentIndex = Array.from(menuItems).indexOf(currentFocus);
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
+                    menuItems[nextIndex].focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
+                    menuItems[prevIndex].focus();
+                } else if (e.key === 'Enter' && currentIndex !== -1) {
+                    e.preventDefault();
+                    menuItems[currentIndex].click();
+                }
+            }
+        });
+
+        // Make menu items focusable for keyboard navigation
+        menuItems.forEach(item => {
+            item.setAttribute('tabindex', '0');
+        });
+    </script>
+</body>
+
+</html>
