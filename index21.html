@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+  margin: 0;
+  font-family: sans-serif;
+  overflow-x: hidden;
+}
+
+.hero-section {
+  height: 100vh;
+  background: linear-gradient(#fca9c9, #fceda8);
+  position: relative;
+}
+
+.about-section {
+  height: 100vh;
+  background: #baf1b4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.car-container {
+  position: absolute;
+  bottom: 100px;
+  left: -200px;
+  display: flex;
+  align-items: center;
+}
+
+.car {
+  font-size: 48px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.person {
+  position: absolute;
+  left: 10px;
+  top: -50px;
+  font-size: 32px;
+}
+
+.banner {
+  position: absolute;
+  left: 60px;
+  top: -60px;
+  background: #fff;
+  padding: 8px 16px;
+  border: 2px solid #000;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="hero-section" id="hero">
+  <div class="car-container" id="carContainer">
+    <div class="car">
+      🚗
+      <div class="person">👨</div>
+      <div class="banner" id="banner">Welcome</div>
+    </div>
+  </div>
+</div>
+
+<div class="about-section" id="about">
+  <h2>About Us</h2>
+  <p>We are passionate creators building next-gen experiences.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const car = document.getElementById('carContainer');
+    const banner = document.getElementById('banner');
+
+    gsap.to(car, {
+      duration: 5,
+      x: window.innerWidth + 100,
+      ease: "power2.inOut",
+      onUpdate: function () {
+        const progress = this.progress();
+        if (progress > 0.5 && banner.innerText !== "About Us") {
+          banner.innerText = "About Us";
+        }
+      },
+      onComplete: () => {
+        // Optional: Keep it stopped at About section
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GSAP Horizontal Scroll</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to right, #e76a92, #fca9c9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 3em;
+    }
+
+    .horizontal-wrapper {
+      height: 100vh;
+      position: relative;
+    }
+
+    .horizontal-scroll {
+      display: flex;
+      height: 100%;
+      width: 400vw; /* 4 sections */
+    }
+
+    .panel {
+      flex: 0 0 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+
+    .panel:nth-child(1) { background-color: #fca9c9; }
+    .panel:nth-child(2) { background-color: #fceda8; }
+    .panel:nth-child(3) { background-color: #baf1b4; }
+    .panel:nth-child(4) { background-color: #b6b3f2; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">Welcome to the Hero Section</section>
+
+  <!-- Horizontal Scroll Section -->
+  <section class="horizontal-wrapper">
+    <div class="horizontal-scroll">
+      <div class="panel">Panel 1</div>
+      <div class="panel">Panel 2</div>
+      <div class="panel">Panel 3</div>
+      <div class="panel">Panel 4</div>
+    </div>
+  </section>
+
+  <!-- GSAP Scripts -->
+  <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sections = document.querySelectorAll(".panel");
+
+    gsap.to(".horizontal-scroll", {
+      xPercent: -100 * (sections.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".horizontal-wrapper",
+        pin: true,
+        scrub: 1,
+        snap: 1 / (sections.length - 1),
+        end: () => "+=" + document.querySelector(".horizontal-scroll").offsetWidth
+      }
+    });
+  </script>
+</body>
+</html>

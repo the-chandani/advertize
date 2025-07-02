@@ -327,107 +327,38 @@
 
       /* hero container css */
       .hero-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 90vh;
-        padding: 50px;
-        background-color: #fffef8;
-        gap: 30px;
-      }
+  display: flex;
+  height: 100vh;
+  background: radial-gradient(circle at top left, #fcd8ff, #fce1d6);
+  overflow: hidden;
+}
 
-      .hero-text {
-        flex: 0 0 65%;
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #ed6c00;
-        font-family: "Courier New", monospace;
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
+.hero-3d {
+  flex: 0 0 60%;
+  height: 100%;
+}
 
-      .hero-text h1 {
-        margin-bottom: 20px;
-      }
+.hero-text {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  font-size: 2rem;
+  color: #231F20;
+}
 
-      .hero-btn {
-        font-size: 18px;
-        padding: 10px 25px;
-        background-color: #ed6c00;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+.cta-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #D4AF37;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
 
-      .hero-btn:hover {
-        background-color: #c65a00;
-      }
 
-      /* .hero-image {
-        flex: 0 0 35%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid #ed6c00; 
-        padding: 10px;
-        box-sizing: border-box;
-      }
-
-      .hero-image img {
-        width: 100%;
-        max-width: 500px;
-        height: auto;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        transition: opacity 1s ease-in-out;
-      } */
-      .hero-image {
-        width: 500px;
-        height: 650px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid #ed6c00;
-        box-sizing: border-box;
-        background-color: #fff;
-        padding: 10px;
-        overflow: hidden;
-        transform: translateX(-10px);
-      }
-
-      .hero-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Crop image to fit frame */
-        /* border-radius: 10px; */
-        transition: opacity 1s ease-in-out;
-      }
-
-      /* horizontal sections */
-      .horizontal-wrapper {
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
-      }
-
-      .horizontal-scroll {
-        display: flex;
-        height: 100%;
-        width: 400vw; /* 4 panels * 100vw */
-      }
-
-      .panel {
-        flex: 0 0 100vw;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3em;
-        font-weight: bold;
-      }
     </style>
   </head>
 
@@ -485,26 +416,18 @@
       <p>• Improved accessibility with keyboard navigation support</p>
     </div> -->
     <div class="hero-container">
-      <div class="hero-text">
-        <h1><span id="typing"></span></h1>
-        <button class="hero-btn">Explore More</button>
-      </div>
+  <div class="hero-3d">
+    <!-- Embed 3D Human using Spline -->
+    <iframe src="https://my.spline.design/humancharacter" frameborder="0" width="100%" height="100%"></iframe>
+  </div>
 
-      <!-- <div class="hero-image">
-        <img id="sliderImage" src="image1.jpg" alt="Slideshow Image" />
-      </div> -->
-    </div>
+  <div class="hero-text">
+    <span class="typed-text" id="typedText"></span>
+    <button class="cta-btn">Explore Now</button>
+  </div>
+</div>
 
-    <section class="horizontal-wrapper">
-      <div class="horizontal-scroll">
-        <div class="panel" style="background-color: #fca9c9">Section 1</div>
-        <div class="panel" style="background-color: #fceda8">Section 2</div>
-        <div class="panel" style="background-color: #baf1b4">Section 3</div>
-        <div class="panel" style="background-color: #b6b3f2">Section 4</div>
-      </div>
-    </section>
-    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
-    <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
+
     <script>
       const nav = document.getElementById("nav");
       const menuTrigger = document.getElementById("menuTrigger");
@@ -574,70 +497,25 @@
     </script>
 
     <script>
-      const lines = [
-        "Welcome to My Website!",
-        "Hope you are good...",
-        "Let's explore together.",
-      ];
+const lines = ["Welcome to My World", "Design Meets Imagination", "Explore. Learn. Inspire."];
+let lineIndex = 0, charIndex = 0;
+const typedText = document.getElementById("typedText");
 
-      let currentLine = 0;
-      let currentChar = 0;
-      const typingElement = document.getElementById("typing");
+function typeLine() {
+  if (lineIndex < lines.length) {
+    if (charIndex < lines[lineIndex].length) {
+      typedText.textContent += lines[lineIndex].charAt(charIndex++);
+      setTimeout(typeLine, 100);
+    } else {
+      typedText.innerHTML += "<br/>";
+      charIndex = 0;
+      lineIndex++;
+      setTimeout(typeLine, 500);
+    }
+  }
+}
+typeLine();
+</script>
 
-      function typeLine() {
-        if (currentLine < lines.length) {
-          let fullText = lines[currentLine];
-          typingElement.innerHTML += fullText.charAt(currentChar);
-
-          currentChar++;
-
-          if (currentChar < fullText.length) {
-            setTimeout(typeLine, 100);
-          } else {
-            typingElement.innerHTML += "<br/>";
-            currentLine++;
-            currentChar = 0;
-            setTimeout(typeLine, 600); // Delay before next line starts
-          }
-        }
-      }
-
-      typeLine();
-    </script>
-
-    <script>
-      const images = [
-        "media/i.jpg",
-        "media/images.jpg",
-        "media/mushroom-fungi-nature-wood-preview.jpg",
-      ];
-      let imgIndex = 0;
-      const slider = document.getElementById("sliderImage");
-
-      setInterval(() => {
-        imgIndex = (imgIndex + 1) % images.length;
-        slider.style.opacity = 0;
-        setTimeout(() => {
-          slider.src = images[imgIndex];
-          slider.style.opacity = 1;
-        }, 500);
-      }, 3000);
-    </script>
-
-    <script>
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.to(".horizontal-scroll", {
-        xPercent: -300, // -(total panels - 1) * 100
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".horizontal-wrapper",
-          pin: true,
-          scrub: true,
-          end: () =>
-            "+=" + document.querySelector(".horizontal-scroll").offsetWidth,
-        },
-      });
-    </script>
   </body>
 </html>

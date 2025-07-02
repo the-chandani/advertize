@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel with Arrow Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 80%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .carousel-item {
+            position: absolute;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Center item - large and focused */
+        .carousel-item.active {
+            width: 500px;
+            height: 600px;
+            filter: blur(0px);
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            z-index: 10;
+        }
+
+        /* Left items */
+        .carousel-item.prev {
+            width: 300px;
+            height: 400px;
+            filter: blur(4px);
+            opacity: 0.6;
+            transform: translateX(-400px) scale(0.8);
+            z-index: 5;
+        }
+
+        .carousel-item.prev-2 {
+            width: 250px;
+            height: 350px;
+            filter: blur(6px);
+            opacity: 0.4;
+            transform: translateX(-600px) scale(0.6);
+            z-index: 3;
+        }
+
+        /* Right items */
+        .carousel-item.next {
+            width: 300px;
+            height: 400px;
+            filter: blur(4px);
+            opacity: 0.6;
+            transform: translateX(400px) scale(0.8);
+            z-index: 5;
+        }
+
+        .carousel-item.next-2 {
+            width: 250px;
+            height: 350px;
+            filter: blur(6px);
+            opacity: 0.4;
+            transform: translateX(600px) scale(0.6);
+            z-index: 3;
+        }
+
+        /* Hidden items */
+        .carousel-item.hidden {
+            opacity: 0;
+            transform: scale(0.5);
+            z-index: 1;
+        }
+
+        /* Navigation arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-arrow.left {
+            left: 30px;
+        }
+
+        .nav-arrow.right {
+            right: 30px;
+        }
+
+        /* Indicators */
+        .indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Info overlay */
+        .info {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            z-index: 30;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Auto-scroll animation */
+        .carousel-container.auto-scrolling .carousel-track {
+            animation: autoScroll 3s ease-in-out;
+        }
+
+        @keyframes autoScroll {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-50px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="info">
+            <h1>Image Carousel</h1>
+            <p>Use arrow buttons to navigate • Center image is focused</p>
+        </div>
+
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Images will be dynamically generated -->
+            </div>
+
+            <!-- Navigation arrows -->
+            <button class="nav-arrow left" onclick="prevImage()">
+                &#8249;
+            </button>
+            <button class="nav-arrow right" onclick="nextImage()">
+                &#8250;
+            </button>
+        </div>
+
+        <!-- Indicators -->
+        <div class="indicators" id="indicators">
+            <!-- Indicators will be dynamically generated -->
+        </div>
+    </div>
+
+    <script>
+        // Sample images
+        const images = [
+            'https://picsum.photos/500/600?random=1',
+            'https://picsum.photos/500/600?random=2',
+            'https://picsum.photos/500/600?random=3',
+            'https://picsum.photos/500/600?random=4',
+            'https://picsum.photos/500/600?random=5',
+            'https://picsum.photos/500/600?random=6',
+            'https://picsum.photos/500/600?random=7',
+            'https://picsum.photos/500/600?random=8'
+        ];
+
+        let currentIndex = 0;
+        let isAnimating = false;
+        let autoScrollInterval;
+
+        const track = document.getElementById('carouselTrack');
+        const indicatorsContainer = document.getElementById('indicators');
+
+        // Create carousel items
+        function createCarousel() {
+            images.forEach((src, index) => {
+                // Create carousel item
+                const item = document.createElement('div');
+                item.className = 'carousel-item';
+                item.dataset.index = index;
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Image ${index + 1}`;
+                
+                item.appendChild(img);
+                track.appendChild(item);
+
+                // Create indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                indicator.onclick = () => goToImage(index);
+                indicatorsContainer.appendChild(indicator);
+            });
+
+            updateCarousel();
+            startAutoScroll();
+        }
+
+        // Update carousel positions
+        function updateCarousel() {
+            const items = document.querySelectorAll('.carousel-item');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            items.forEach((item, index) => {
+                const position = getPosition(index, currentIndex, images.length);
+                item.className = `carousel-item ${position}`;
+            });
+
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        // Get position class for item
+        function getPosition(index, current, total) {
+            const diff = (index - current + total) % total;
+            
+            if (diff === 0) return 'active';
+            if (diff === 1) return 'next';
+            if (diff === 2) return 'next-2';
+            if (diff === total - 1) return 'prev';
+            if (diff === total - 2) return 'prev-2';
+            return 'hidden';
+        }
+
+        // Navigate to next image
+        function nextImage() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            currentIndex = (currentIndex + 1) % images.length;
+            updateCarousel();
+            
+            // Add scroll animation effect
+            document.querySelector('.carousel-container').classList.add('auto-scrolling');
+            setTimeout(() => {
+                document.querySelector('.carousel-container').classList.remove('auto-scrolling');
+                isAnimating = false;
+            }, 600);
+            
+            resetAutoScroll();
+        }
+
+        // Navigate to previous image
+        function prevImage() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateCarousel();
+            
+            // Add scroll animation effect
+            document.querySelector('.carousel-container').classList.add('auto-scrolling');
+            setTimeout(() => {
+                document.querySelector('.carousel-container').classList.remove('auto-scrolling');
+                isAnimating = false;
+            }, 600);
+            
+            resetAutoScroll();
+        }
+
+        // Go to specific image
+        function goToImage(index) {
+            if (isAnimating || index === currentIndex) return;
+            isAnimating = true;
+            
+            currentIndex = index;
+            updateCarousel();
+            
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
+            
+            resetAutoScroll();
+        }
+
+        // Start auto scroll
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (!isAnimating) {
+                    nextImage();
+                }
+            }, 4000);
+        }
+
+        // Reset auto scroll
+        function resetAutoScroll() {
+            clearInterval(autoScrollInterval);
+            startAutoScroll();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevImage();
+            } else if (e.key === 'ArrowRight') {
+                nextImage();
+            }
+        });
+
+        // Initialize carousel
+        createCarousel();
+    </script>
+</body>
+</html>

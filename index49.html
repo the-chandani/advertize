@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Journey</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .section {
+      font-size: 5rem;
+      width: 100vw;
+      height: 100vh;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .center-marker {
+      position: fixed;
+      width: 2px;
+      height: 100vh;
+      background: tomato;
+      top: 0;
+      left: calc(50vw - 1px);
+      z-index: 10000;
+    }
+
+    section {
+      font-weight: 900;
+      transition: color 0.3s;
+    }
+
+    section.active {
+      color: orange;
+    }
+
+    .character {
+      position: fixed;
+      top: 22.6%;
+      left: 8%;
+      width: 35vh;
+      height: 35vh;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .farola {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 33.16%;
+      z-index: 999;
+    }
+
+    .bikeomatic {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 53.028%;
+      z-index: 999;
+    }
+
+    .adman {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 85.37%;
+      z-index: 999;
+    }
+
+    .totoro {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 13.39%;
+    }
+
+    .trash {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 20.66%;
+    }
+
+    .clouds {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 19.97%;
+      z-index: -1;
+    }
+
+    .advert {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 25.87%;
+    }
+
+    .chicapelo {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 28.36%;
+    }
+
+    .smellyoyster {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 31.74%;
+    }
+
+    /* Background for different sections */
+    .section--1 { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+    .section--2 { background: linear-gradient(45deg, #4ecdc4, #45b7d1); }
+    .section--3 { background: linear-gradient(45deg, #45b7d1, #96ceb4); }
+    .section--4 { background: linear-gradient(45deg, #96ceb4, #ffeaa7); }
+
+    .spacer {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Add some initial space for scrolling -->
+  <div class="spacer"></div>
+
+  <div class="wrapper">
+    <!-- Section 1 - Main scene -->
+    <section class="section section--1 d-flex justify-content-center align-items-center">
+      <div class="clouds">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/clouds.png" class="d-block h-100" />
+      </div>
+      <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/bg.png" class="d-block h-100" />
+      <div class="totoro">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/totoro-ojos.gif" class="d-block h-100" />
+      </div>
+      <div class="trash">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/trash.gif" class="d-block h-100" />
+      </div>
+      <div class="chicapelo">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/chica_pelo.gif" class="d-block h-100" />
+      </div>
+      <div class="smellyoyster">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/smellyoyster.png" class="d-block h-100" />
+      </div>
+      <div class="advert">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/addd.png" class="d-block h-100" />
+      </div>
+      <div class="character">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/car.png" class="d-block h-100" />
+      </div>
+      <div class="farola">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/farola.png" class="d-block h-100" />
+      </div>
+      <div class="bikeomatic">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/bikeomatic.png" class="d-block h-100" />
+      </div>
+      <div class="adman">
+        <img src="https://enekodev.s3.eu-west-3.amazonaws.com/img/adman.png" class="d-block h-100" />
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="section section--2 d-flex justify-content-center align-items-center">
+      <h1 style="color: white; text-align: center;">Chapter 2<br>The Journey Continues</h1>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="section section--3 d-flex justify-content-center align-items-center">
+      <h1 style="color: white; text-align: center;">Chapter 3<br>New Adventures</h1>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="section section--4 d-flex justify-content-center align-items-center">
+      <h1 style="color: white; text-align: center;">Chapter 4<br>The End</h1>
+    </section>
+  </div>
+
+  <!-- Add more space for scrolling -->
+  <div class="spacer"></div>
+
+  <!-- Center marker for reference -->
+  <div class="center-marker"></div>
+
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sections = gsap.utils.toArray(".section");
+    let maxWidth = 0;
+
+    const getMaxWidth = () => {
+      maxWidth = 0;
+      sections.forEach((section) => {
+        maxWidth += section.offsetWidth;
+      });
+    };
+    
+    getMaxWidth();
+    ScrollTrigger.addEventListener("refreshInit", getMaxWidth);
+
+    // Horizontal scroll animation
+    gsap.to(sections, {
+      x: () => `-${maxWidth - window.innerWidth}`,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".wrapper",
+        pin: true,
+        scrub: 1,
+        start: "top top",
+        end: () => `+=${maxWidth - window.innerWidth}`,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          console.log("Scroll progress:", self.progress);
+        }
+      }
+    });
+
+    // Character animation - moves across the viewport as sections scroll
+    gsap.to(".character", {
+      x: "200vw", // Move character across the viewport
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".wrapper",
+        scrub: 1,
+        start: "top top",
+        end: () => `+=${maxWidth - window.innerWidth}`,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          console.log("Character progress:", self.progress);
+        }
+      }
+    });
+
+    // Debug info
+    console.log("Sections found:", sections.length);
+    console.log("Max width:", maxWidth);
+  </script>
+</body>
+</html>

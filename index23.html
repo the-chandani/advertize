@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Car Hero Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(135deg, #ed6c00 0%, #ff8533 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .typing-text {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            min-height: 2em;
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: #ffffff;
+            margin-left: 3px;
+            width: 3px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero-cta {
+            background: #ffffff;
+            color: #ed6c00;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(237, 108, 0, 0.3);
+        }
+
+        .hero-right {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 3D Car Canvas */
+        #hero-car-canvas {
+            width: 500px;
+            height: 400px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        #scrolling-car-canvas {
+            width: 400px;
+            height: 300px;
+            border-radius: 15px;
+        }
+
+        /* Banner */
+        .hero-banner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ed6c00;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* About Us Section */
+        .about-section {
+            min-height: 100vh;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .about-left {
+            flex: 1;
+            position: relative;
+        }
+
+        .scrolling-car {
+            position: fixed;
+            top: 50%;
+            left: -450px;
+            transform: translateY(-50%);
+            transition: all 1s ease-out;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .about-right {
+            flex: 1;
+            padding-left: 5%;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            color: #ed6c00;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .about-banner {
+            background: linear-gradient(135deg, #ed6c00, #ff8533);
+            color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(237, 108, 0, 0.3);
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            0% { transform: translateX(100px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Character */
+        .character {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 40px;
+            z-index: 100;
+        }
+
+        .character-head {
+            width: 20px;
+            height: 20px;
+            background: #ffdbac;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            position: relative;
+        }
+
+        .character-body {
+            width: 30px;
+            height: 20px;
+            background: #ed6c00;
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-right {
+                padding-left: 0;
+                margin-top: 2rem;
+            }
+
+            #hero-car-canvas {
+                width: 300px;
+                height: 250px;
+            }
+
+            #scrolling-car-canvas {
+                width: 250px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-left">
+            <h1 class="hero-title">Drive Into The Future</h1>
+            <div class="typing-text" id="typing-text"></div>
+            <button class="hero-cta">Get Started</button>
+        </div>
+        
+        <div class="hero-right">
+            <canvas id="hero-car-canvas"></canvas>
+            <div class="character">
+                <div class="character-head"></div>
+                <div class="character-body"></div>
+            </div>
+            <div class="hero-banner">Premium 3D Cars Available!</div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section">
+        <div class="about-left">
+            <div class="scrolling-car" id="scrolling-car">
+                <canvas id="scrolling-car-canvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="about-right">
+            <h2 class="about-title">About Us</h2>
+            <p class="about-text">
+                We are passionate about delivering exceptional automotive experiences. With years of expertise in the industry, we provide premium vehicles and outstanding customer service that exceeds expectations.
+            </p>
+            <p class="about-text">
+                Our mission is to revolutionize the way people think about cars, combining cutting-edge technology with timeless design to create vehicles that inspire and perform.
+            </p>
+            <div class="about-banner">
+                🚗 About Us - Your Trusted Car Partner Since 2020 🚗
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Global variables
+        let heroScene, heroCamera, heroRenderer, heroCar;
+        let scrollScene, scrollCamera, scrollRenderer, scrollCar;
+        let heroAnimationId, scrollAnimationId;
+
+        // Create 3D Car Model
+        function createCar() {
+            const carGroup = new THREE.Group();
+
+            // Car Body
+            const bodyGeometry = new THREE.BoxGeometry(4, 1.5, 2);
+            const bodyMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xffffff,
+                shininess: 100,
+                specular: 0x222222
+            });
+            const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            carBody.position.y = 0.75;
+            carGroup.add(carBody);
+
+            // Car Roof
+            const roofGeometry = new THREE.BoxGeometry(2.5, 1.2, 1.8);
+            const roofMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xe0e0e0,
+                shininess: 80
+            });
+            const carRoof = new THREE.Mesh(roofGeometry, roofMaterial);
+            carRoof.position.set(0, 1.8, 0);
+            carGroup.add(carRoof);
+
+            // Windows
+            const windowGeometry = new THREE.BoxGeometry(2.3, 1, 1.6);
+            const windowMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x87CEEB,
+                transparent: true,
+                opacity: 0.6,
+                shininess: 100
+            });
+            const windows = new THREE.Mesh(windowGeometry, windowMaterial);
+            windows.position.set(0, 1.9, 0);
+            carGroup.add(windows);
+
+            // Wheels
+            const wheelGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.3, 16);
+            const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+            
+            const wheel1 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+            wheel1.position.set(-1.5, 0, 1.2);
+            wheel1.rotation.z = Math.PI / 2;
+            carGroup.add(wheel1);
+
+            const wheel2 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+            wheel2.position.set(1.5, 0, 1.2);
+            wheel2.rotation.z = Math.PI / 2;
+            carGroup.add(wheel2);
+
+            const wheel3 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+            wheel3.position.set(-1.5, 0, -1.2);
+            wheel3.rotation.z = Math.PI / 2;
+            carGroup.add(wheel3);
+
+            const wheel4 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+            wheel4.position.set(1.5, 0, -1.2);
+            wheel4.rotation.z = Math.PI / 2;
+            carGroup.add(wheel4);
+
+            // Headlights
+            const headlightGeometry = new THREE.SphereGeometry(0.2, 8, 8);
+            const headlightMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xffff00,
+                emissive: 0x444400
+            });
+            
+            const headlight1 = new THREE.Mesh(headlightGeometry, headlightMaterial);
+            headlight1.position.set(1.8, 0.8, 0.7);
+            carGroup.add(headlight1);
+
+            const headlight2 = new THREE.Mesh(headlightGeometry, headlightMaterial);
+            headlight2.position.set(1.8, 0.8, -0.7);
+            carGroup.add(headlight2);
+
+            // Store wheels for animation
+            carGroup.wheels = [wheel1, wheel2, wheel3, wheel4];
+
+            return carGroup;
+        }
+
+        // Initialize Hero Car Scene
+        function initHeroScene() {
+            const canvas = document.getElementById('hero-car-canvas');
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            // Scene
+            heroScene = new THREE.Scene();
+            heroScene.background = new THREE.Color(0x87CEEB);
+
+            // Camera
+            heroCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            heroCamera.position.set(8, 5, 8);
+            heroCamera.lookAt(0, 0, 0);
+
+            // Renderer
+            heroRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            heroRenderer.setSize(width, height);
+            heroRenderer.shadowMap.enabled = true;
+            heroRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            heroScene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 10, 5);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            heroScene.add(directionalLight);
+
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(20, 20);
+            const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x90EE90 });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1;
+            ground.receiveShadow = true;
+            heroScene.add(ground);
+
+            // Car
+            heroCar = createCar();
+            heroCar.castShadow = true;
+            heroCar.children.forEach(child => {
+                child.castShadow = true;
+            });
+            heroScene.add(heroCar);
+        }
+
+        // Initialize Scrolling Car Scene
+        function initScrollScene() {
+            const canvas = document.getElementById('scrolling-car-canvas');
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            // Scene
+            scrollScene = new THREE.Scene();
+            scrollScene.background = new THREE.Color(0x87CEEB);
+
+            // Camera
+            scrollCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            scrollCamera.position.set(6, 4, 6);
+            scrollCamera.lookAt(0, 0, 0);
+
+            // Renderer
+            scrollRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            scrollRenderer.setSize(width, height);
+            scrollRenderer.shadowMap.enabled = true;
+            scrollRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scrollScene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 10, 5);
+            directionalLight.castShadow = true;
+            scrollScene.add(directionalLight);
+
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(15, 15);
+            const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x90EE90 });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1;
+            ground.receiveShadow = true;
+            scrollScene.add(ground);
+
+            // Car
+            scrollCar = createCar();
+            scrollCar.castShadow = true;
+            scrollCar.children.forEach(child => {
+                child.castShadow = true;
+            });
+            scrollScene.add(scrollCar);
+        }
+
+        // Animation functions
+        function animateHero() {
+            heroAnimationId = requestAnimationFrame(animateHero);
+
+            // Rotate car
+            heroCar.rotation.y += 0.01;
+            
+            // Float animation
+            heroCar.position.y = Math.sin(Date.now() * 0.002) * 0.5;
+
+            // Spin wheels
+            if (heroCar.wheels) {
+                heroCar.wheels.forEach(wheel => {
+                    wheel.rotation.x += 0.1;
+                });
+            }
+
+            // Camera orbit
+            const time = Date.now() * 0.001;
+            heroCamera.position.x = Math.cos(time * 0.5) * 8;
+            heroCamera.position.z = Math.sin(time * 0.5) * 8;
+            heroCamera.lookAt(0, 0, 0);
+
+            heroRenderer.render(heroScene, heroCamera);
+        }
+
+        function animateScroll() {
+            scrollAnimationId = requestAnimationFrame(animateScroll);
+
+            // Rotate car
+            scrollCar.rotation.y += 0.015;
+            
+            // Bounce animation
+            scrollCar.position.y = Math.sin(Date.now() * 0.003) * 0.3;
+
+            // Spin wheels
+            if (scrollCar.wheels) {
+                scrollCar.wheels.forEach(wheel => {
+                    wheel.rotation.x += 0.12;
+                });
+            }
+
+            scrollRenderer.render(scrollScene, scrollCamera);
+        }
+
+        // Typing Animation
+        const texts = [
+            "Experience luxury like never before...",
+            "Premium cars for premium people...",
+            "Your journey starts here...",
+            "Drive with confidence and style..."
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-text');
+        
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.innerHTML = currentText.substring(0, charIndex - 1) + '<span class="cursor">|</span>';
+                charIndex--;
+            } else {
+                typingElement.innerHTML = currentText.substring(0, charIndex + 1) + '<span class="cursor">|</span>';
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => { isDeleting = true; }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            const typingSpeed = isDeleting ? 50 : 100;
+            setTimeout(typeText, typingSpeed);
+        }
+
+        // Scroll Animation for Car
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const scrollingCar = document.getElementById('scrolling-car');
+            
+            if (scrolled > window.innerHeight * 0.3) {
+                scrollingCar.style.left = '10%';
+                scrollingCar.style.transform = 'translateY(-50%) scale(0.8)';
+                scrollingCar.style.opacity = '1';
+            } else {
+                scrollingCar.style.left = '-450px';
+                scrollingCar.style.opacity = '0';
+            }
+        });
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            initHeroScene();
+            initScrollScene();
+            animateHero();
+            animateScroll();
+            typeText();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const heroCanvas = document.getElementById('hero-car-canvas');
+                const scrollCanvas = document.getElementById('scrolling-car-canvas');
+                
+                if (heroCanvas && heroCamera && heroRenderer) {
+                    const heroWidth = heroCanvas.clientWidth;
+                    const heroHeight = heroCanvas.clientHeight;
+                    heroCamera.aspect = heroWidth / heroHeight;
+                    heroCamera.updateProjectionMatrix();
+                    heroRenderer.setSize(heroWidth, heroHeight);
+                }
+                
+                if (scrollCanvas && scrollCamera && scrollRenderer) {
+                    const scrollWidth = scrollCanvas.clientWidth;
+                    const scrollHeight = scrollCanvas.clientHeight;
+                    scrollCamera.aspect = scrollWidth / scrollHeight;
+                    scrollCamera.updateProjectionMatrix();
+                    scrollRenderer.setSize(scrollWidth, scrollHeight);
+                }
+            });
+        });
+
+        // Add smooth scrolling behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            const aboutElements = document.querySelectorAll('.about-title, .about-text');
+            aboutElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

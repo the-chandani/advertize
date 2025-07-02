@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header with Matching Footer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Merienda", cursive;
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Navigation Styles */
+        #nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 90vh;
+            background-color: #ed6c00;
+            border-radius: 0 0 35px 35px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(237, 108, 0, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        #nav.active {
+            transform: translateY(0);
+        }
+
+        #nav #nav-child1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 25px;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #nav .menu-item {
+            cursor: pointer;
+            padding: 20px 40px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            transform: translateY(30px);
+            opacity: 0;
+            white-space: nowrap;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 300px;
+            font-size: 18px;
+        }
+
+        #nav.active .menu-item {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInDown 0.6s ease forwards;
+        }
+
+        #nav .menu-item:nth-child(1) { animation-delay: 0.1s; }
+        #nav .menu-item:nth-child(2) { animation-delay: 0.2s; }
+        #nav .menu-item:nth-child(3) { animation-delay: 0.3s; }
+        #nav .menu-item:nth-child(4) { animation-delay: 0.4s; }
+        #nav .menu-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #nav .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        #nav .menu-item:active {
+            transform: translateY(-2px);
+        }
+
+        #menuTrigger {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #ed6c00, #d45a00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: "Merienda", cursive;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 1100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(237, 108, 0, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2), 
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+            opacity: 1;
+        }
+
+        #menuTrigger.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        #cancelBtn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #ed6c00;
+            border: 4px solid #ed6c00;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            margin-top: 15px;
+            align-self: center;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        #nav.active #cancelBtn {
+            transform: translateY(0);
+            opacity: 1;
+            animation: slideInUp 0.6s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #cancelBtn:hover {
+            background-color: #ed6c00;
+            color: white;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 80px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-wrapper h1 {
+            color: #ed6c00;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .content-wrapper p {
+            color: #666;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Footer Styles - Matching Header */
+        .footer {
+            background: linear-gradient(135deg, #ed6c00, #d45a00);
+            border-radius: 35px 35px 0 0;
+            padding: 40px 20px 20px;
+            margin-top: auto;
+            box-shadow: 0 -15px 35px rgba(237, 108, 0, 0.4);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            color: white;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.3px;
+        }
+
+        .footer-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-contact p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px) rotate(15deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-section {
+                min-width: 100%;
+            }
+
+            .content-wrapper h1 {
+                font-size: 2rem;
+            }
+
+            .content-wrapper p {
+                font-size: 1rem;
+            }
+
+            #menuTrigger {
+                right: 20px;
+                top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Trigger Button -->
+    <button id="menuTrigger">&#9776; Menu</button>
+
+    <!-- Navigation Overlay -->
+    <div id="nav">
+        <div id="nav-child1">
+            <div class="menu-item">Home</div>
+            <div class="menu-item">About Us</div>
+            <div class="menu-item">Services</div>
+            <div class="menu-item">Portfolio</div>
+        </div>
+        <div id="nav-child1">
+            <div class="menu-item">Contact</div>
+            <div class="menu-item">Blog</div>
+            <div class="menu-item">Careers</div>
+            <div class="menu-item">Support</div>
+            <button id="cancelBtn">×</button>
+        </div>
+        <div id="nav-child1">
+            <div class="menu-item">Privacy</div>
+            <div class="menu-item">Terms</div>
+            <div class="menu-item">FAQ</div>
+            <div class="menu-item">Help</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <h1>Welcome to Our Website</h1>
+            <p>This is your main content area. The header and footer are designed to complement each other with matching orange themes, curved borders, and elegant styling. The footer remains visible at the bottom while the header navigation slides down when activated.</p>
+            <p>Scroll down to see the beautiful matching footer that complements the header design!</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#web-design">Web Design</a></li>
+                    <li><a href="#development">Development</a></li>
+                    <li><a href="#consulting">Consulting</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section footer-contact">
+                <h3>Contact Info</h3>
+                <p>📧 hello@company.com</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>📍 123 Business St, City, State</p>
+                
+                <div class="footer-social">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">💼</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Your Company Name. All rights reserved. | Designed with ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuTrigger = document.getElementById('menuTrigger');
+        const nav = document.getElementById('nav');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        function openNav() {
+            nav.classList.add('active');
+            menuTrigger.classList.add('hidden');
+        }
+
+        function closeNav() {
+            nav.classList.remove('active');
+            menuTrigger.classList.remove('hidden');
+        }
+
+        menuTrigger.addEventListener('click', openNav);
+        cancelBtn.addEventListener('click', closeNav);
+
+        // Close nav when clicking on menu items
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                closeNav();
+                // Add your navigation logic here
+                console.log('Navigating to:', item.textContent);
+            });
+        });
+
+        // Close nav when clicking outside
+        nav.addEventListener('click', (e) => {
+            if (e.target === nav) {
+                closeNav();
+            }
+        });
+
+        // Close nav with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeNav();
+            }
+        });
+    </script>
+</body>
+</html>

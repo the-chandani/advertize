@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Scrolling Image Carousel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            animation: scroll 20s linear infinite;
+            align-items: center;
+        }
+
+        .carousel-item {
+            flex-shrink: 0;
+            transition: all 0.6s ease;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Default state - smaller and blurred */
+        .carousel-item {
+            width: 200px;
+            height: 300px;
+            filter: blur(3px);
+            opacity: 0.6;
+            transform: scale(0.8);
+        }
+
+        /* Center item - large and focused */
+        .carousel-item.center {
+            width: 400px;
+            height: 500px;
+            filter: blur(0px);
+            opacity: 1;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* Animation keyframes */
+        @keyframes scroll {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100vw); }
+        }
+
+        /* Pause animation on hover */
+        .carousel-container:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        /* Gradient overlays for depth */
+        .carousel-container::before,
+        .carousel-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .carousel-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(102, 126, 234, 0.8), transparent);
+        }
+
+        .carousel-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(118, 75, 162, 0.8), transparent);
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 30;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Info overlay */
+        .info {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            z-index: 30;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="info">
+            <h1>Auto Carousel</h1>
+            <p>Images scroll right to left • Center image is focused</p>
+        </div>
+
+        <div class="carousel-track" id="carouselTrack">
+            <!-- Images will be dynamically generated -->
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="toggleAnimation()">Pause</button>
+            <button class="control-btn" onclick="changeSpeed()">Speed</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample images (using placeholder service)
+        const images = [
+            'https://picsum.photos/400/500?random=1',
+            'https://picsum.photos/400/500?random=2',
+            'https://picsum.photos/400/500?random=3',
+            'https://picsum.photos/400/500?random=4',
+            'https://picsum.photos/400/500?random=5',
+            'https://picsum.photos/400/500?random=6',
+            'https://picsum.photos/400/500?random=7',
+            'https://picsum.photos/400/500?random=8'
+        ];
+
+        let currentSpeed = 1;
+        let isPaused = false;
+        const track = document.getElementById('carouselTrack');
+
+        // Create carousel items
+        function createCarousel() {
+            // Create multiple sets of images for seamless loop
+            const imageCount = images.length;
+            const totalImages = imageCount * 3; // Triple the images for smooth loop
+            
+            for (let i = 0; i < totalImages; i++) {
+                const item = document.createElement('div');
+                item.className = 'carousel-item';
+                
+                const img = document.createElement('img');
+                img.src = images[i % imageCount];
+                img.alt = `Image ${(i % imageCount) + 1}`;
+                
+                item.appendChild(img);
+                track.appendChild(item);
+            }
+        }
+
+        // Update center image based on position
+        function updateCenterImage() {
+            const items = document.querySelectorAll('.carousel-item');
+            const containerCenter = window.innerWidth / 2;
+            
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const itemCenter = rect.left + rect.width / 2;
+                const distanceFromCenter = Math.abs(itemCenter - containerCenter);
+                
+                // Remove center class from all items
+                item.classList.remove('center');
+                
+                // Add center class to the closest item
+                if (distanceFromCenter < 150) {
+                    item.classList.add('center');
+                }
+            });
+        }
+
+        // Toggle animation
+        function toggleAnimation() {
+            const btn = event.target;
+            isPaused = !isPaused;
+            
+            if (isPaused) {
+                track.style.animationPlayState = 'paused';
+                btn.textContent = 'Play';
+            } else {
+                track.style.animationPlayState = 'running';
+                btn.textContent = 'Pause';
+            }
+        }
+
+        // Change speed
+        function changeSpeed() {
+            currentSpeed = currentSpeed === 1 ? 2 : currentSpeed === 2 ? 0.5 : 1;
+            const duration = 20 / currentSpeed;
+            track.style.animationDuration = `${duration}s`;
+            
+            const btn = event.target;
+            btn.textContent = currentSpeed === 1 ? 'Speed' : currentSpeed === 2 ? 'Fast' : 'Slow';
+        }
+
+        // Initialize carousel
+        createCarousel();
+
+        // Update center image periodically
+        setInterval(updateCenterImage, 100);
+
+        // Initial center image update
+        setTimeout(updateCenterImage, 500);
+    </script>
+</body>
+</html>

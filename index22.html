@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Hero Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(135deg, #ed6c00 0%, #ff8533 100%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .typing-text {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            min-height: 2em;
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: #ffffff;
+            margin-left: 3px;
+            width: 3px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero-cta {
+            background: #ffffff;
+            color: #ed6c00;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(237, 108, 0, 0.3);
+        }
+
+        .hero-right {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 3D Car Container */
+        .car-container {
+            position: relative;
+            width: 400px;
+            height: 200px;
+            transform-style: preserve-3d;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(5deg); }
+        }
+
+        /* 3D Car */
+        .car-3d {
+            position: relative;
+            width: 300px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .car-body {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            border-radius: 20px 20px 10px 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .car-roof {
+            width: 60%;
+            height: 40px;
+            background: linear-gradient(45deg, #e0e0e0, #ffffff);
+            border-radius: 15px 15px 0 0;
+            position: absolute;
+            top: -35px;
+            left: 20%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .car-window {
+            width: 80%;
+            height: 25px;
+            background: linear-gradient(45deg, #87CEEB, #4682B4);
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            top: 5px;
+            left: 10%;
+        }
+
+        .wheel {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #333, #000);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -20px;
+            animation: spin 2s linear infinite;
+        }
+
+        .wheel-front {
+            right: 30px;
+        }
+
+        .wheel-rear {
+            left: 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Character */
+        .character {
+            position: absolute;
+            top: -15px;
+            right: 30%;
+            width: 30px;
+            height: 40px;
+        }
+
+        .character-head {
+            width: 20px;
+            height: 20px;
+            background: #ffdbac;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            position: relative;
+        }
+
+        .character-body {
+            width: 30px;
+            height: 20px;
+            background: #ed6c00;
+            border-radius: 5px;
+        }
+
+        /* Banner */
+        .hero-banner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #ed6c00;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* About Us Section */
+        .about-section {
+            min-height: 100vh;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .about-left {
+            flex: 1;
+            position: relative;
+        }
+
+        .scrolling-car {
+            position: fixed;
+            top: 50%;
+            left: -400px;
+            transform: translateY(-50%);
+            transition: all 1s ease-out;
+            z-index: 10;
+        }
+
+        .about-right {
+            flex: 1;
+            padding-left: 5%;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            color: #ed6c00;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .about-banner {
+            background: linear-gradient(135deg, #ed6c00, #ff8533);
+            color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(237, 108, 0, 0.3);
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            0% { transform: translateX(100px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-right {
+                padding-left: 0;
+                margin-top: 2rem;
+            }
+
+            .car-container {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-left">
+            <h1 class="hero-title">Drive Into The Future</h1>
+            <div class="typing-text" id="typing-text"></div>
+            <button class="hero-cta">Get Started</button>
+        </div>
+        
+        <div class="hero-right">
+            <div class="car-container" id="hero-car">
+                <div class="car-3d">
+                    <div class="car-body">
+                        <div class="car-roof">
+                            <div class="car-window"></div>
+                        </div>
+                        <div class="character">
+                            <div class="character-head"></div>
+                            <div class="character-body"></div>
+                        </div>
+                    </div>
+                    <div class="wheel wheel-front"></div>
+                    <div class="wheel wheel-rear"></div>
+                </div>
+            </div>
+            <div class="hero-banner">Premium Cars Available!</div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section">
+        <div class="about-left">
+            <div class="scrolling-car" id="scrolling-car">
+                <div class="car-3d">
+                    <div class="car-body">
+                        <div class="car-roof">
+                            <div class="car-window"></div>
+                        </div>
+                        <div class="character">
+                            <div class="character-head"></div>
+                            <div class="character-body"></div>
+                        </div>
+                    </div>
+                    <div class="wheel wheel-front"></div>
+                    <div class="wheel wheel-rear"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-right">
+            <h2 class="about-title">About Us</h2>
+            <p class="about-text">
+                We are passionate about delivering exceptional automotive experiences. With years of expertise in the industry, we provide premium vehicles and outstanding customer service that exceeds expectations.
+            </p>
+            <p class="about-text">
+                Our mission is to revolutionize the way people think about cars, combining cutting-edge technology with timeless design to create vehicles that inspire and perform.
+            </p>
+            <div class="about-banner">
+                🚗 About Us - Your Trusted Car Partner Since 2020 🚗
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Typing Animation
+        const texts = [
+            "Experience luxury like never before...",
+            "Premium cars for premium people...",
+            "Your journey starts here...",
+            "Drive with confidence and style..."
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-text');
+        
+        function typeText() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.innerHTML = currentText.substring(0, charIndex - 1) + '<span class="cursor">|</span>';
+                charIndex--;
+            } else {
+                typingElement.innerHTML = currentText.substring(0, charIndex + 1) + '<span class="cursor">|</span>';
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => { isDeleting = true; }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            const typingSpeed = isDeleting ? 50 : 100;
+            setTimeout(typeText, typingSpeed);
+        }
+        
+        // Start typing animation
+        typeText();
+        
+        // Scroll Animation for Car
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const scrollingCar = document.getElementById('scrolling-car');
+            
+            if (scrolled > window.innerHeight * 0.3) {
+                scrollingCar.style.left = '10%';
+                scrollingCar.style.transform = 'translateY(-50%) scale(0.8)';
+            } else {
+                scrollingCar.style.left = '-400px';
+            }
+        });
+
+        // Add smooth scrolling behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            const aboutElements = document.querySelectorAll('.about-title, .about-text');
+            aboutElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.8s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

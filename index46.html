@@ -1,0 +1,598 @@
+ <!-- <div class="carousel-box">
+    <div class="carousel-container">
+      <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack"></div>
+        <button class="nav-arrow left" onclick="prevImage()">&#8249;</button>
+        <button class="nav-arrow right" onclick="nextImage()">&#8250;</button>
+      </div>
+      <div class="indicators" id="indicators"></div>
+    </div>
+  </div> -->
+
+  <div class="progress-bar" id="progressBar" hidden></div>
+  <div class="slider">
+    <ul>
+    <li>
+      <input type="radio" name="slide" checked="checked">
+      <div class="slide">
+        <div class="left left-face">
+          <img src="https://images.unsplash.com/photo-1514250609276-c577268ef8fb?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        </div>
+        <div class="right right-face">
+          <div class="content">
+            <h2>Slide One</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+          </div>
+    </li>
+    <li>
+      <input type="radio" name="slide">
+      <div class="slide">
+        <div class="left left-face">
+          <img src="https://images.unsplash.com/photo-1727407472659-2fa9f4b64a7b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        </div>
+        <div class="right right-face">
+          <div class="content">
+            <h2>Slide Two</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+    </li>
+        <li>
+      <input type="radio" name="slide">
+      <div class="slide">
+        <div class="left left-face">
+          <img src="https://images.unsplash.com/photo-1728223242106-33f774df9f89?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        </div>
+        <div class="right right-face">
+          <div class="content">
+            <h2>Slide Three</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+    </li>
+        <li>
+      <input type="radio" name="slide">
+      <div class="slide">
+        <div class="left left-face">
+          <img src="https://images.unsplash.com/photo-1728074136652-5d93f34c4e3f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        </div>
+        <div class="right right-face">
+          <div class="content">
+            <h2>Slide Four</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+    </li>
+        <li>
+      <input type="radio" name="slide">
+      <div class="slide">
+        <div class="left left-face">
+          <img src="https://plus.unsplash.com/premium_photo-1699531223793-aa7e1bd66246?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+        </div>
+        <div class="right right-face">
+          <div class="content">
+            <h2>Slide Five</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+    </li>
+  </ul>
+</div>
+
+<script>
+    const images = [
+      'https://picsum.photos/500/600?random=1',
+      'https://picsum.photos/500/600?random=2',
+      'https://picsum.photos/500/600?random=3',
+      'https://picsum.photos/500/600?random=4',
+      'https://picsum.photos/500/600?random=5',
+      'https://picsum.photos/500/600?random=6',
+      'https://picsum.photos/500/600?random=7',
+      'https://picsum.photos/500/600?random=8'
+    ];
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    let autoScrollInterval;
+
+    const track = document.getElementById('carouselTrack');
+    const indicatorsContainer = document.getElementById('indicators');
+
+    function createCarousel() {
+      images.forEach((src, index) => {
+        const item = document.createElement('div');
+        item.className = 'carousel-item';
+        item.dataset.index = index;
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Image ${index + 1}`;
+        item.appendChild(img);
+        track.appendChild(item);
+
+        const indicator = document.createElement('div');
+        indicator.className = 'indicator';
+        indicator.onclick = () => goToImage(index);
+        indicatorsContainer.appendChild(indicator);
+      });
+
+      updateCarousel();
+      startAutoScroll();
+    }
+
+    function updateCarousel() {
+      const items = document.querySelectorAll('.carousel-item');
+      const indicators = document.querySelectorAll('.indicator');
+
+      items.forEach((item, index) => {
+        const position = getPosition(index, currentIndex, images.length);
+        item.className = `carousel-item ${position}`;
+      });
+
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function getPosition(index, current, total) {
+      const diff = (index - current + total) % total;
+      if (diff === 0) return 'active';
+      if (diff === 1) return 'next';
+      if (diff === 2) return 'next-2';
+      if (diff === total - 1) return 'prev';
+      if (diff === total - 2) return 'prev-2';
+      return 'hidden';
+    }
+
+    function nextImage() {
+      if (isAnimating) return;
+      isAnimating = true;
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+      document.querySelector('.carousel-container').classList.add('auto-scrolling');
+      setTimeout(() => {
+        document.querySelector('.carousel-container').classList.remove('auto-scrolling');
+        isAnimating = false;
+      }, 600);
+      resetAutoScroll();
+    }
+
+    function prevImage() {
+      if (isAnimating) return;
+      isAnimating = true;
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateCarousel();
+      document.querySelector('.carousel-container').classList.add('auto-scrolling');
+      setTimeout(() => {
+        document.querySelector('.carousel-container').classList.remove('auto-scrolling');
+        isAnimating = false;
+      }, 600);
+      resetAutoScroll();
+    }
+
+    function goToImage(index) {
+      if (isAnimating || index === currentIndex) return;
+      isAnimating = true;
+      currentIndex = index;
+      updateCarousel();
+      setTimeout(() => {
+        isAnimating = false;
+      }, 600);
+      resetAutoScroll();
+    }
+
+    function startAutoScroll() {
+      autoScrollInterval = setInterval(() => {
+        if (!isAnimating) {
+          nextImage();
+        }
+      }, 4000);
+    }
+
+    function resetAutoScroll() {
+      clearInterval(autoScrollInterval);
+      startAutoScroll();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevImage();
+      else if (e.key === 'ArrowRight') nextImage();
+    });
+
+    createCarousel();
+  </script>
+
+  <script>
+        class SimpleAutoSlider {
+            constructor() {
+                this.slides = document.querySelectorAll('input[name="slide"]');
+                this.currentSlide = 0;
+                this.duration = 4000; // 4 seconds per slide
+                this.autoInterval = null;
+                this.progressInterval = null;
+                this.progressBar = document.getElementById('progressBar');
+                
+                this.init();
+            }
+            
+            init() {
+                // Set initial checked slide
+                this.updateCurrentSlide();
+                
+                // Start auto-play immediately
+                this.startAutoPlay();
+                
+                // Manual slide change detection
+                this.slides.forEach((slide, index) => {
+                    slide.addEventListener('change', () => {
+                        if (slide.checked) {
+                            this.currentSlide = index;
+                            this.resetProgress();
+                        }
+                    });
+                });
+                
+                // Pause on hover, resume on leave
+                const container = document.querySelector('.slider-container');
+                container.addEventListener('mouseenter', () => this.pauseAutoPlay());
+                container.addEventListener('mouseleave', () => this.resumeAutoPlay());
+            }
+            
+            updateCurrentSlide() {
+                this.slides.forEach((slide, index) => {
+                    if (slide.checked) {
+                        this.currentSlide = index;
+                    }
+                });
+            }
+            
+            startAutoPlay() {
+                this.autoInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.duration);
+                
+                this.startProgress();
+            }
+            
+            pauseAutoPlay() {
+                if (this.autoInterval) {
+                    clearInterval(this.autoInterval);
+                    this.autoInterval = null;
+                }
+                this.stopProgress();
+            }
+            
+            resumeAutoPlay() {
+                if (!this.autoInterval) {
+                    this.startAutoPlay();
+                }
+            }
+            
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                this.slides[this.currentSlide].checked = true;
+                this.resetProgress();
+            }
+            
+            startProgress() {
+                this.resetProgress();
+                let progress = 0;
+                const increment = 100 / (this.duration / 50); // Update every 50ms
+                
+                this.progressInterval = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(this.progressInterval);
+                    }
+                    this.updateProgressBar(progress);
+                }, 50);
+            }
+            
+            stopProgress() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+            
+            resetProgress() {
+                this.stopProgress();
+                this.updateProgressBar(0);
+                if (this.autoInterval) {
+                    setTimeout(() => this.startProgress(), 100);
+                }
+            }
+            
+            updateProgressBar(progress) {
+                this.progressBar.style.width = progress + '%';
+            }
+        }
+        
+        // Initialize the auto slider when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new SimpleAutoSlider();
+        });
+    </script>
+<style>
+    /* carousal image css */
+      /* Outer container box */
+    .carousel-box {
+      max-width: 1200px;
+      height: 90vh;
+      margin: 40px auto;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      /* background-color: #ed6c00; */
+      padding: 10px;
+      position: relative;
+    }
+
+    .carousel-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .carousel-item {
+      position: absolute;
+      transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-item.active {
+      width: 500px;
+      height: 600px;
+      filter: blur(0px);
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      z-index: 10;
+    }
+
+    .carousel-item.prev {
+      width: 300px;
+      height: 400px;
+      filter: blur(4px);
+      opacity: 0.6;
+      transform: translateX(-400px) scale(0.8);
+      z-index: 5;
+    }
+
+    .carousel-item.prev-2 {
+      width: 250px;
+      height: 350px;
+      filter: blur(6px);
+      opacity: 0.4;
+      transform: translateX(-600px) scale(0.6);
+      z-index: 3;
+    }
+
+    .carousel-item.next {
+      width: 300px;
+      height: 400px;
+      filter: blur(4px);
+      opacity: 0.6;
+      transform: translateX(400px) scale(0.8);
+      z-index: 5;
+    }
+
+    .carousel-item.next-2 {
+      width: 250px;
+      height: 350px;
+      filter: blur(6px);
+      opacity: 0.4;
+      transform: translateX(600px) scale(0.6);
+      z-index: 3;
+    }
+
+    .carousel-item.hidden {
+      opacity: 0;
+      transform: scale(0.5);
+      z-index: 1;
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-arrow.left {
+      left: 30px;
+    }
+
+    .nav-arrow.right {
+      right: 30px;
+    }
+
+    .indicators {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 20;
+    }
+
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background: white;
+      transform: scale(1.2);
+    }
+
+    .carousel-container.auto-scrolling .carousel-track {
+      animation: autoScroll 3s ease-in-out;
+    }
+
+    @keyframes autoScroll {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-50px); }
+      100% { transform: translateX(0); }
+    }
+
+
+    /* ca2 */
+    
+.slider {
+  position: relative;
+  width: 75%;
+  height: 90vh;
+  align-items: center;
+  overflow: hidden;
+}
+
+ul {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+ul li {
+  list-style: none;
+  margin-bottom: 50px;
+}
+
+ul li input {
+  position: relative;
+  z-index: 1000;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+ul li .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+ul li .slide .left {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: #fff;
+}
+
+ul li .slide .right {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  /* background: red; */
+  background: linear-gradient(135deg, #ed6c00 10%, #fffef8 100%);
+
+}
+
+ul li .slide .left.left-face {
+  left: 0;
+  transition: transform 1s;
+  transform-origin: bottom;
+  transform: rotateX(90deg);
+}
+
+ul li .slide .left.left-face img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+ul li .slide .right.right-face {
+  right: 0;
+  transition: transform 1s;
+  transform-origin: top;
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotateX(90deg);
+}
+
+ul li .slide .right.right-face h2 {
+  font-size: 3rem;
+  color: #333;
+}
+
+ul li .slide .right.right-face p {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5em;
+}
+
+ul li input[type="radio"]:checked ~ .slide .left.left-face {
+  transform: rotateX(0deg);
+  transition: transform 1s;
+  transform-origin: top;
+}
+
+ul li input[type="radio"]:checked ~ .slide .right.right-face {
+  transform: rotateX(0deg);
+  transition: transform 1s;
+  transform-origin: bottom;
+}
+
+</style>

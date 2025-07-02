@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Banner Carousel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 1200px;
+            height: 350px;
+            perspective: 1000px;
+            overflow: visible;
+        }
+
+        .carousel-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            animation: slideFlow 25s linear infinite;
+            transform-style: preserve-3d;
+        }
+
+        .slide {
+            position: relative;
+            width: 280px;
+            height: 320px;
+            margin: 0 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            transform: rotateY(15deg) scale(0.8);
+            filter: blur(2px) brightness(0.6);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide.active {
+            transform: rotateY(0deg) scale(1.1) translateZ(50px);
+            filter: blur(0px) brightness(1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .slide.active img {
+            transform: scale(1.05);
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 30px 20px 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.6s ease;
+        }
+
+        .slide.active .slide-overlay {
+            transform: translateY(0);
+        }
+
+        .slide-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .slide-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0;
+            animation: gradientShift 4s ease infinite;
+            transition: opacity 0.6s ease;
+        }
+
+        .slide.active::before {
+            opacity: 1;
+        }
+
+        @keyframes slideFlow {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #4ecdc4;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .carousel-track.paused {
+            animation-play-state: paused;
+        }
+
+        .main-title {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .main-title h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        .main-title p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes titleGlow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.3));
+            }
+            100% {
+                filter: drop-shadow(0 0 20px rgba(69, 183, 209, 0.5));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .carousel-container {
+                width: 100vw;
+            }
+            
+            .slide {
+                width: 220px;
+                height: 280px;
+                margin: 0 15px;
+            }
+            
+            .main-title h1 {
+                font-size: 2rem;
+            }
+            
+            .main-title p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-wrapper">
+        <div class="main-title">
+            <h1>Visual Journey</h1>
+            <p>Experience the world through stunning imagery</p>
+        </div>
+        
+        <div class="carousel-container">
+            <div class="carousel-controls">
+                <button class="control-btn" onclick="toggleCarousel()">⏸️ Pause</button>
+                <button class="control-btn" onclick="resetCarousel()">🔄 Reset</button>
+            </div>
+            
+            <div class="carousel-track" id="carouselTrack">
+                <!-- First set of slides -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=600&fit=crop" alt="Mountain Vista">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Mountain Vista</div>
+                        <div class="slide-desc">Breathtaking peaks reaching for the sky</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=500&h=600&fit=crop" alt="City Lights">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Urban Glow</div>
+                        <div class="slide-desc">The pulse of city life after dark</div>
+                    </div>
+                </div>
+                
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=600&fit=crop" alt="Forest Path">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Forest Serenity</div>
+                        <div class="slide-desc">Where nature finds its perfect balance</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&h=600&fit=crop" alt="Ocean Waves">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Ocean Dreams</div>
+                        <div class="slide-desc">Endless horizons of blue tranquility</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&h=600&fit=crop" alt="Desert Landscape">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Desert Solitude</div>
+                        <div class="slide-desc">Golden sands stretching beyond time</div>
+                    </div>
+                </div>
+                
+                <!-- Exact duplicate set for seamless infinite loop -->
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=600&fit=crop" alt="Mountain Vista">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Mountain Vista</div>
+                        <div class="slide-desc">Breathtaking peaks reaching for the sky</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=500&h=600&fit=crop" alt="City Lights">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Urban Glow</div>
+                        <div class="slide-desc">The pulse of city life after dark</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=600&fit=crop" alt="Forest Path">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Forest Serenity</div>
+                        <div class="slide-desc">Where nature finds its perfect balance</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500&h=600&fit=crop" alt="Ocean Waves">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Ocean Dreams</div>
+                        <div class="slide-desc">Endless horizons of blue tranquility</div>
+                    </div>
+                </div>
+                
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&h=600&fit=crop" alt="Desert Landscape">
+                    <div class="slide-overlay">
+                        <div class="slide-title">Desert Solitude</div>
+                        <div class="slide-desc">Golden sands stretching beyond time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-indicators">
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isPaused = false;
+        let currentIndex = 2;
+        
+        function toggleCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const btn = document.querySelector('.control-btn');
+            
+            if (isPaused) {
+                track.classList.remove('paused');
+                btn.innerHTML = '⏸️ Pause';
+                isPaused = false;
+            } else {
+                track.classList.add('paused');
+                btn.innerHTML = '▶️ Play';
+                isPaused = true;
+            }
+        }
+        
+        function resetCarousel() {
+            const track = document.getElementById('carouselTrack');
+            track.style.animation = 'none';
+            track.offsetHeight; // Trigger reflow
+            track.style.animation = 'slideFlow 25s linear infinite';
+        }
+        
+        function updateActiveSlide() {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const containerRect = document.querySelector('.carousel-container').getBoundingClientRect();
+            const centerX = containerRect.left + containerRect.width / 2;
+            
+            let closestSlide = null;
+            let minDistance = Infinity;
+            let closestIndex = 0;
+            
+            slides.forEach((slide, index) => {
+                const slideRect = slide.getBoundingClientRect();
+                const slideCenterX = slideRect.left + slideRect.width / 2;
+                const distance = Math.abs(slideCenterX - centerX);
+                
+                slide.classList.remove('active');
+                
+                if (distance < minDistance && slideRect.right > containerRect.left && slideRect.left < containerRect.right) {
+                    minDistance = distance;
+                    closestSlide = slide;
+                    closestIndex = index % 5; // Only 5 unique slides
+                }
+            });
+            
+            if (closestSlide) {
+                closestSlide.classList.add('active');
+                
+                // Update indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === closestIndex);
+                });
+            }
+        }
+        
+        // Update active slide periodically
+        setInterval(updateActiveSlide, 100);
+        
+        // Pause on hover
+        const container = document.querySelector('.carousel-container');
+        container.addEventListener('mouseenter', () => {
+            if (!isPaused) {
+                document.getElementById('carouselTrack').style.animationPlayState = 'paused';
+            }
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            if (!isPaused) {
+                document.getElementById('carouselTrack').style.animationPlayState = 'running';
+            }
+        });
+        
+        // Initial setup
+        updateActiveSlide();
+    </script>
+</body>
+</html>

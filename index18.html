@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Background with Typing</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    .typing-text {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .cursor {
+      display: inline-block;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <iframe title="3D Model" frameborder="0" allowfullscreen
+    mozallowfullscreen="true" webkitallowfullscreen="true"
+    allow="autoplay; fullscreen; xr-spatial-tracking" 
+    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+    width="100%" height="100%" 
+    src="https://sketchfab.com/models/1e64f43fc8b446e5be5b7d233ba23ff6/embed">
+</iframe>
+<!-- <iframe src="https://threejs.org/examples/#webgl_animation_cloth" width="100%" height="100%" style="position: fixed; top:0; left:0; z-index: -1;"></iframe> -->
+
+
+
+  <div class="typing-text" id="text"></div>
+
+  <script>
+    const message = "Welcome to My Creative 3D Website!";
+    const textEl = document.getElementById('text');
+    let i = 0;
+
+    function type() {
+      if (i < message.length) {
+        textEl.innerHTML += message.charAt(i);
+        i++;
+        setTimeout(type, 100);
+      } else {
+        textEl.innerHTML += '<span class="cursor">|</span>';
+      }
+    }
+
+    type();
+  </script>
+</body>
+</html>
